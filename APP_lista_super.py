@@ -5,7 +5,7 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button 
 
-class ListaSuper(App):
+class FirstLista(App):
     def build (self):
         layout = BoxLayout(orientation='vertical')
 
@@ -42,4 +42,4 @@ class ListaSuper(App):
             self.instruction_label.text = "Por favor ingrese un costo valido."
 
 if __name__ == '__main__':
-    ListaSuper().run()
+    FirstLista().run()
