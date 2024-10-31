@@ -4,12 +4,15 @@ from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
+from kivy.core.window import Window 
 
 class ListaSuperApp(App):
     def build(self):
+        Window.clearcolor= (1, 1, 1, 1)
+
         layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
 
-        instruction_label = Label(text="Ingrese el nombre del producto y su costo", font_size='30sp', color = (0, 1, 0, 1))
+        instruction_label = Label(text="Ingrese el nombre del producto y su costo", font_size='30sp', color = (0, 0, 0, 1))
         layout.add_widget(instruction_label)
 
         self.producto_input = TextInput(hint_text="Ingrese nombre del producto", font_size='16sp', multiline=False, size_hint_y=None, height=60)
