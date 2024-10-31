@@ -21,7 +21,7 @@ class ListaSuperApp(App):
         self.costo_input = TextInput(hint_text="Ingrese costo del producto", font_size='16sp', multiline=False, input_filter='float', size_hint_y=None, height=60)
         layout.add_widget(self.costo_input)
 
-        agregar_button = Button(text="Agregar Producto", font_size='18sp', background_color=(0, 1, 0, 1))
+        agregar_button = Button(text="Agregar Producto", size_hint = (0.5,None),height = 100, pos_hint = {"center_x":0.5}, background_color=(0, 1, 0, 1))
         agregar_button.bind(on_press=self.agregar_producto)
         layout.add_widget(agregar_button)
 
@@ -45,7 +45,7 @@ class ListaSuperApp(App):
             self.suma_total += costo
             self.suma_label.text = f"Suma total: {self.suma_total}"
 
-            producto_label = Label(text=f"{producto}: ${costo}", font_size='16sp', size_hint_y=None, height=30)
+            producto_label = Label(text=f"{producto}: ${costo}", font_size='16sp', size_hint_y=None, height=30, color = (0, 0, 0, 1))
             self.lista_productos.add_widget(producto_label)
 
             self.producto_input.text = ""
