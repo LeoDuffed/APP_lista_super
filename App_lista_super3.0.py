@@ -36,7 +36,7 @@ class PantallaInicio (Screen):
     def CambiarTotal (self, instance):
         self.manager.current = 'total'
 
-    def CambioVerduras (self, instance): 
+    def CambiarVerduras (self, instance): 
         self.manager.current = 'verduras'
 
 class RegistroGastos (Screen): 
@@ -100,7 +100,7 @@ class ListaTotal(Screen):
         layout.add_widget(boton_calcular_total)
 
         self.total_label = Label(text = "")
-        layout.add_widget(boton_calcular_total)
+        layout.add_widget(self.total_label)
 
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (0.6, 1, 0.6, 1))
         boton_volver.bind (on_press = self.volver_registro) 
@@ -109,7 +109,7 @@ class ListaTotal(Screen):
         self.add_widget(layout)
 
     def volver_registro (self, instance):
-        self.manager,current = 'inicio'
+        self.manager.current = 'inicio'
 
     def calcular_total(self, instance):
         total = sum (precio for nombre, precio in App.get_running_app().root.get_screen('registro').lista_precios)
@@ -125,6 +125,31 @@ class ListaTotal(Screen):
 class VerdurasFrutas (Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
+
+        self.layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10 )
+
+        insctruction_label = Label (text = "Verduras y Frutas", font_size = '30sp', color = (0,0,0,1))
+        self.layout.add_widget(insctruction_label)
+
+
+        self.producto_input = TextInput (hint_text = "Ingresa el producto", multiline = False, font_size = '16sp', size_hint_y = None, height = 80) 
+        self.layout.add_widget(self.producto_input)
+
+        self.precio_por_kilo = TextInput (hint_text = "Ingresa el valor por kilo", multiline = False, font_size = '16sp', size_hint_y = None, height = 80)
+        self.layout.add_widget(self.precio_por_kilo)
+
+        self.gramaje_input = TextInput (hint_text = "Ingresa en gramos lo que hagarraste", multiline = False, font_size = '16sp', size_hint_y = None, height = 80)
+        self.layout.add_widget(self.gramaje_input)
+        
+        boton_volver = Button (text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (0,1,0,1))
+        boton_volver.bind (on_press= self.volver_registro)
+        self.layout.add_widget(boton_volver)
+
+        self.add_widget(self.layout)
+
+
+    def volver_registro(self, instance): 
+        self.manager.current = 'inicio'
 
 class ListaSuper (App): 
     def build(self): 
