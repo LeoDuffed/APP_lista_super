@@ -125,3 +125,15 @@ class ListaTotal(Screen):
 class VerdurasFrutas (Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
+
+class ListaSuper (App): 
+    def build(self): 
+
+        sm = ScreenManager()
+        sm.add_widget(PantallaInicio(name = 'inicio'))
+        sm.add_widget(RegistroGastos(name = 'registro'))
+        sm.add_widget(VerdurasFrutas(name = 'verduras'))
+        sm.add_widget(ListaTotal(name = 'total'))
+        return sm
+    
+ListaSuper().run()
