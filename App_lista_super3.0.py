@@ -47,11 +47,14 @@ class RegistroGastos (Screen):
         
         self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
 
-        self.producto_input = TextInput (hint_text = "Ingrese el articulo", multiline = False, size_hint = (0.5, None), size_hint_y = None, height = 80)
+        self.producto_input = TextInput (hint_text = "Ingrese el articulo", multiline = False, size_hint_y = None, height = 80)
         self.layout.add_widget(self.producto_input)
 
-        self.precio_input = TextInput (hint_text = "Ingrese el precio del articulo", multiline = False, size_hint = (0.5, None), size_hint_y = None, height = 80)
+        self.precio_input = TextInput (hint_text = "Ingrese el precio del articulo", multiline = False, size_hint_y = None, height = 80, input_filter = 'float')
         self.layout.add_widget(self.precio_input)
+
+        self.cantidad_input = TextInput (hint_text = "Ingresa la cantidad de este producto", multiline = False, size_hint_y = None, height = 80, input_filter = 'int')
+        self.layout.add_widget(self.cantidad_input)
 
         boton_agregar = Button (text = "Agregar producto", size_hint = (0.5, None), height = 100, pos_hint = {"center_x":0.5}, background_color = (0,1,0,1))
         boton_agregar.bind(on_press = self.AgregarProducto)
@@ -72,13 +75,16 @@ class RegistroGastos (Screen):
         self.manager.current = 'inicio'
 
     def AgregarProducto (self, instance):
-        producto = self.precio_input.text
+        producto = self.producto_input.text
         try: 
-            precio = float(self.producto_input.text)
-            self.lista_precios.append ((producto, precio))
+            cantidad = int(self.cantidad_input.text)
+            precio = float(self.precio_input.text)
+            total_precio = precio * cantidad
+            self.lista_precios.append ((producto, total_precio))
 
             self.producto_input.text = ""
             self.precio_input.text = ""
+            self.cantidad_input.text = ""
             self.resultado_label.text = "Producto Agregado"
         except ValueError: 
             self.resultado_label.text = "Ingresa un precio valido"
@@ -114,6 +120,7 @@ class ListaTotal(Screen):
     def calcular_total(self, instance):
         total = sum (precio for nombre, precio in App.get_running_app().root.get_screen('registro').lista_precios)
         self.total_label.text = f"Total ${total:.2f}"
+        self.total_label.color = (0,0,0,1)
 
     def on_enter(self):
         self.productos_layout.clear_widgets()
@@ -121,6 +128,7 @@ class ListaTotal(Screen):
         for nombre, precio in productos: 
             etiqueta = Label(text = f"{nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
             self.productos_layout.add_widget(etiqueta)
+            etiqueta.color = (0,0,0,1)
 
 class VerdurasFrutas (Screen):
     def __init__(self, **kw):
@@ -131,7 +139,6 @@ class VerdurasFrutas (Screen):
         insctruction_label = Label (text = "Verduras y Frutas", font_size = '30sp', color = (0,0,0,1))
         self.layout.add_widget(insctruction_label)
 
-
         self.producto_input = TextInput (hint_text = "Ingresa el producto", multiline = False, font_size = '16sp', size_hint_y = None, height = 80) 
         self.layout.add_widget(self.producto_input)
 
@@ -140,12 +147,28 @@ class VerdurasFrutas (Screen):
 
         self.gramaje_input = TextInput (hint_text = "Ingresa en gramos lo que hagarraste", multiline = False, font_size = '16sp', size_hint_y = None, height = 80)
         self.layout.add_widget(self.gramaje_input)
+
+        agregar_button = Button (text = "Agregar producto", size_hint = (0.5, None), height = 100, pos_hint = {"center_x":0.5}, background_color = (0,1,0,1))
+        agregar_button.bind (on_press = self.agregar_producto)
+        self.layout.add_widget(agregar_button)
+
+        self.resultado_label = Label (text = "")
+        self.layout.add_widget(self.resultado_label)
         
         boton_volver = Button (text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (0,1,0,1))
         boton_volver.bind (on_press= self.volver_registro)
         self.layout.add_widget(boton_volver)
 
         self.add_widget(self.layout)
+
+    def agregar_producto(self, instance): 
+        try: 
+            producto = self.producto_input.text
+            precio_kilo = float(self.precio_por_kilo.text)
+            peso = float(self.gramaje_input.text)
+        except ValueError: 
+            self.resultado_label.text = "Ingrese peso o costo valido"
+
 
 
     def volver_registro(self, instance): 
