@@ -89,47 +89,6 @@ class RegistroGastos (Screen):
         except ValueError: 
             self.resultado_label.text = "Ingresa un precio valido"
 
-class ListaTotal(Screen):
-    def __init__(self, **kw):
-        super().__init__(**kw)
-
-        layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10)
-
-        self.scroll_view = ScrollView (size_hint = (1, None), size = (Window.width, 300))
-        self.productos_layout = GridLayout (cols = 1, spacing = 10, size_hint_y = 10)
-        self.productos_layout.bind(minimum_height = self.productos_layout.setter ('height'))
-        self.scroll_view.add_widget(self.productos_layout)
-        layout.add_widget(self.scroll_view)
-
-        boton_calcular_total = Button(text = "Calcular Total")
-        boton_calcular_total.bind(on_press = self.calcular_total)
-        layout.add_widget(boton_calcular_total)
-
-        self.total_label = Label(text = "")
-        layout.add_widget(self.total_label)
-
-        boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (0.6, 1, 0.6, 1))
-        boton_volver.bind (on_press = self.volver_registro) 
-        layout.add_widget(boton_volver)
-
-        self.add_widget(layout)
-
-    def volver_registro (self, instance):
-        self.manager.current = 'inicio'
-
-    def calcular_total(self, instance):
-        total = sum (precio for nombre, precio in App.get_running_app().root.get_screen('registro').lista_precios)
-        self.total_label.text = f"Total ${total:.2f}"
-        self.total_label.color = (0,0,0,1)
-
-    def on_enter(self):
-        self.productos_layout.clear_widgets()
-        productos = App.get_running_app().root.get_screen('registro').lista_precios
-        for nombre, precio in productos: 
-            etiqueta = Label(text = f"{nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
-            self.productos_layout.add_widget(etiqueta)
-            etiqueta.color = (0,0,0,1)
-
 class VerdurasFrutas (Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
@@ -161,18 +120,66 @@ class VerdurasFrutas (Screen):
 
         self.add_widget(self.layout)
 
+        self.lista_precios = []
+
     def agregar_producto(self, instance): 
         try: 
             producto = self.producto_input.text
             precio_kilo = float(self.precio_por_kilo.text)
             peso = float(self.gramaje_input.text)
+            precio = (peso * precio_kilo)/1000          
+            self.lista_precios.append (producto, precio)
+
+            self.producto_input.text = ""
+            self.precio_por_kilo.text = ""
+            self.peso.text = ""
+            self.resultado_label.text = "Producto Agregado"
         except ValueError: 
             self.resultado_label.text = "Ingrese peso o costo valido"
 
-
-
     def volver_registro(self, instance): 
         self.manager.current = 'inicio'
+
+class ListaTotal(Screen):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+
+        layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10)
+
+        self.scroll_view = ScrollView (size_hint = (1, None), size = (Window.width, 300))
+        self.productos_layout = GridLayout (cols = 1, spacing = 10, size_hint_y = 10)
+        self.productos_layout.bind(minimum_height = self.productos_layout.setter ('height'))
+        self.scroll_view.add_widget(self.productos_layout)
+        layout.add_widget(self.scroll_view)
+
+        boton_calcular_total = Button(text = "Calcular Total")
+        boton_calcular_total.bind(on_press = self.calcular_total)
+        layout.add_widget(boton_calcular_total)
+
+        self.total_label = Label(text = "")
+        layout.add_widget(self.total_label)
+
+        boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (0.6, 1, 0.6, 1))
+        boton_volver.bind (on_press = self.volver_registro) 
+        layout.add_widget(boton_volver)
+
+        self.add_widget(layout)
+
+    def volver_registro (self, instance):
+        self.manager.current = 'inicio'
+
+    def calcular_total(self, instance):
+        total = sum (precio for nombre, precio in App.get_running_app().root.get_screen('registro', 'verduras').lista_precios)
+        self.total_label.text = f"Total ${total:.2f}"
+        self.total_label.color = (0,0,0,1)
+
+    def on_enter(self):
+        self.productos_layout.clear_widgets()
+        productos = App.get_running_app().root.get_screen('registro', 'verduras').lista_precios
+        for nombre, precio in productos: 
+            etiqueta = Label(text = f"{nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
+            self.productos_layout.add_widget(etiqueta)
+            etiqueta.color = (0,0,0,1)
 
 class ListaSuper (App): 
     def build(self): 
