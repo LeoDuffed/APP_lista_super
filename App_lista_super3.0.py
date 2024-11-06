@@ -159,7 +159,7 @@ class ListaTotal(Screen):
         self.total_label = Label(text = "")
         layout.add_widget(self.total_label)
 
-        boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (0.6, 1, 0.6, 1))
+        boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (0,1,0,1))
         boton_volver.bind (on_press = self.volver_registro) 
         layout.add_widget(boton_volver)
 
@@ -173,7 +173,6 @@ class ListaTotal(Screen):
         verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
         all_products = registro_gastos + verduras_futas
         total = sum(precio for nombre, precio in all_products)
-#        total = sum (precio for nombre, precio in App.get_running_app().root.get_screen('registro', 'verduras').lista_precios)
         self.total_label.text = f"Total ${total:.2f}"
         self.total_label.color = (0,0,0,1)
 
@@ -182,7 +181,6 @@ class ListaTotal(Screen):
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
         verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
         all_products = registro_gastos + verduras_futas
-#        productos = App.get_running_app().root.get_screen('registro', 'verduras').lista_precios
         for nombre, precio in all_products: 
             etiqueta = Label(text = f"{nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
             self.productos_layout.add_widget(etiqueta)
