@@ -155,7 +155,7 @@ class ListaTotal(Screen):
         self.scroll_view.add_widget(self.productos_layout)
         layout.add_widget(self.scroll_view)
 
-        boton_calcular_total = Button(text = "Calcular Total", pos_hint = {"center_x": 0.5}, background_color = (0.6, 0.8, 1, 1))
+        boton_calcular_total = Button (text = "Total", size_hint = (0.8, None), height = 300, pos_hint = {"center_x":0.5}, background_color =(0.6, 0.8, 1, 1))
         boton_calcular_total.bind(on_press = self.calcular_total)
         layout.add_widget(boton_calcular_total)
 
@@ -188,6 +188,11 @@ class ListaTotal(Screen):
             etiqueta = Label(text = f"{nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
             self.productos_layout.add_widget(etiqueta)
             etiqueta.color = (0,0,0,1)
+
+class ListasPasadas (Screen):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+
 
 class ListaSuper (App): 
     def build(self): 
