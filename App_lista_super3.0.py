@@ -42,10 +42,13 @@ class PantallaInicio (Screen):
 class RegistroGastos (Screen): 
     def __init__(self, **kwargs): 
         super().__init__(**kwargs)
-
+                                    
         Window.clearcolor = (1, 1, 0.9, 1)
         
         self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
+
+        self.intruction_lable = Label (text = "Ingresa tus productos", font_size = '30sp', color = (0,0,0,1))
+        self.layout.add_widget(self.intruction_lable)
 
         self.producto_input = TextInput (hint_text = "Ingrese el articulo", multiline = False, size_hint_y = None, height = 100, font_size= '16sp')
         self.layout.add_widget(self.producto_input)
