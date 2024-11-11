@@ -107,7 +107,7 @@ class VerdurasFrutas (Screen):
         self.precio_por_kilo = TextInput (hint_text = "Ingresa el valor por kilo", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.precio_por_kilo)
 
-        self.gramaje_input = TextInput (hint_text = "Ingresa en gramos lo que hagarraste", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
+        self.gramaje_input = TextInput (hint_text = "Ingresa en gramos lo que agarraste", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.gramaje_input)
 
         agregar_button = Button (text = "Agregar producto", size_hint = (0.8, None), height = 200, pos_hint = {"center_x":0.5}, background_color = (0,1,0,1))
