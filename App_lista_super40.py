@@ -28,23 +28,23 @@ class PantallaInicio (Screen):
         boton_descuentos.bind (on_press = self.CambiarDescuentos)
         layout.add_widget(boton_descuentos)
 
-        boton_total = Button(text = "Total", pos_hint = {"center_x": 0.5}, background_color = (0.5, 1, 0, 1))
-        boton_total.bind (on_press = self.CambiarTotal) 
-        layout.add_widget(boton_total)
+        boton_listas = Button(text = "Listas", pos_hint = {"center_x": 0.5}, background_color = (0.68, 0.86, 0.68, 1))
+        boton_listas.bind (on_press = self.CambiarListas)
+        layout.add_widget(boton_listas)
 
         self.add_widget(layout)
 
     def CambiarRegistro (self, instance): 
         self.manager.current = 'registro'
-    
-    def CambiarTotal (self, instance):
-        self.manager.current = 'total'
 
     def CambiarVerduras (self, instance): 
         self.manager.current = 'verduras'
     
     def CambiarDescuentos (self, instance):
         self.manager.current = 'descuentos'
+    
+    def CambiarListas (self, instance):
+        self.manager.current = 'listas'
 
 class RegistroGastos (Screen): 
     def __init__(self, **kwargs): 
@@ -207,6 +207,39 @@ class ProductosDescuentos (Screen):
                 self.resultado_label.text = "Producto agregado"
             except ValueError: 
                 self.resultado_label.text = "Ingresa un precio valido"
+
+
+
+class PaginaListas(Screen): 
+    def __init__(self, **k): 
+        super().__init__(**k)
+
+        self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
+
+        boton_total = Button(text = "Total", pos_hint = {"center_x": 0.5}, background_color = (0.5, 1, 0, 1))
+        boton_total.bind (on_press = self.CambiarTotal) 
+        self.layout.add_widget(boton_total)
+
+        boton_borrar = Button(text = "Borrar Productos", pos_hint = {"center_x": 0.5}, background_color = (0.5,1,0,1))
+        boton_borrar.bind (on_press = self.CambiarBorrar)
+        self.layout.add_widget(boton_borrar)
+
+        boton_volver = Button (text = 'Volver', pos_hint = {"center_x":0.5}, background_color = (1, 0.7, 0.8, 1))
+        boton_volver.bind (on_press = self.volver_registro)
+        self.layout.add_widget(boton_volver)
+
+        self.add_widget(self.layout)
+
+    def CambiarTotal (self, instance):
+        self.manager.current = 'total'
+
+    def CambiarBorrar (self, instance):
+        self.manager.current = 'borrar'
+
+    def volver_registro (self, instance):
+        self.manager.current = 'inicio'
+
+
     
 class ListaTotal(Screen):
     def __init__(self, **kw):
@@ -234,7 +267,7 @@ class ListaTotal(Screen):
         self.add_widget(layout)
 
     def volver_registro (self, instance):
-        self.manager.current = 'inicio'
+        self.manager.current = 'listas'
 
     def calcular_total(self, instance):
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
@@ -256,14 +289,39 @@ class ListaTotal(Screen):
             self.productos_layout.add_widget(etiqueta)
             etiqueta.color = (0,0,0,1)
 
+
 class BorrarProductos (Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
+
         self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
+
+        self.scroll_view = ScrollView (size_hint = (1, None), size = (Window.width, 300))
+        self.productos_layout = GridLayout (cols = 1, spacing = 10, size_hint_y = 10)
+        self.productos_layout.bind(minimum_height = self.productos_layout.setter ('height'))
+        self.scroll_view.add_widget(self.productos_layout)
+        self.layout.add_widget(self.scroll_view)
 
         boton_borrar_articulo = Button(text = "Borrar", pos_hint = {"center_x":0.5},size_hint = (0.5, None), height = 150, background_color = (1,0,0,1))
         boton_borrar_articulo.bind(on_press = self.borrar_producto)
         self.layout.add_widget(boton_borrar_articulo)
+
+        boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1, 0.7, 0.8, 1))
+        boton_volver.bind (on_press = self.volver_registro) 
+        self.layout.add_widget(boton_volver)
+
+        self.add_widget(self.layout)
+
+    def on_enter(self):
+        self.productos_layout.clear_widgets()
+        registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
+        verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
+        productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
+        all_products = registro_gastos + verduras_futas + productos_descuentos
+        for nombre, precio in all_products: 
+            etiqueta = Label(text = f"{nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
+            self.productos_layout.add_widget(etiqueta)
+            etiqueta.color = (0,0,0,1)
 
     def borrar_producto(self, instance):
         # falta hacer que se puedan borrar productos en la lista.
@@ -274,11 +332,14 @@ class BorrarProductos (Screen):
         all_products = registro_gastos + verduras_futas + productos_descuentos
         self.lista = all_products
 
+    def volver_registro (self, instance):
+        self.manager.current = 'listas'
 
-class ListasPasadas (Screen):
-    # Es para poder guardar las litas pasadas y poder verlas 
-    def __init__(self, **kw):
-        super().__init__(**kw)
+
+
+
+
+
 
 
 class ListaSuper (App): 
@@ -289,7 +350,9 @@ class ListaSuper (App):
         sm.add_widget(RegistroGastos(name = 'registro'))
         sm.add_widget(VerdurasFrutas(name = 'verduras'))
         sm.add_widget(ProductosDescuentos(name = 'descuentos'))
-        sm.add_widget(ListaTotal(name = 'total'))
+        sm.add_widget(PaginaListas(name = 'listas'))
+        sm.add_widget(ListaTotal (name = 'total'))
+        sm.add_widget(BorrarProductos(name = 'borrar'))
         return sm
     
 ListaSuper().run()
