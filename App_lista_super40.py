@@ -1,3 +1,7 @@
+# Hecho por Leonardo Martínez Peña
+# 19/11/2024
+
+
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label 
@@ -216,6 +220,9 @@ class PaginaListas(Screen):
         super().__init__(**k)
 
         self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
+
+        instruction_label = Label (text = "Ve y Edita tus listas", font_size = '30sp', color = (0,0,0,1))
+        self.layout.add_widget(instruction_label)
 
         boton_total = Button(text = "Total", pos_hint = {"center_x": 0.5}, background_color = (0.5, 1, 0, 1))
         boton_total.bind (on_press = self.CambiarTotal) 
