@@ -227,6 +227,10 @@ class ListaTotal(Screen):
         self.total_label = Label(text = "")
         layout.add_widget(self.total_label)
 
+        boton_borrar_articulo = Button(text = "Borrar", pos_hint = {"center_x":0.5},size_hint = (0.5, None), height = 150, background_color = (1,0,0,1))
+        boton_borrar_articulo.bind(on_press = self.borrar_producto)
+        layout.add_widget(boton_borrar_articulo)
+
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1, 0.7, 0.8, 1))
         boton_volver.bind (on_press = self.volver_registro) 
         layout.add_widget(boton_volver)
@@ -235,6 +239,13 @@ class ListaTotal(Screen):
 
     def volver_registro (self, instance):
         self.manager.current = 'inicio'
+
+    def borrar_producto(self, instance):
+        # falta hacer que se puedan borrar productos en la lista.
+        registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
+        verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
+        productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
+        all_products = registro_gastos + verduras_futas + productos_descuentos
 
     def calcular_total(self, instance):
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
@@ -257,6 +268,7 @@ class ListaTotal(Screen):
             etiqueta.color = (0,0,0,1)
 
 class ListasPasadas (Screen):
+    # Es para poder guardar las litas pasadas y poder verlas 
     def __init__(self, **kw):
         super().__init__(**kw)
 
