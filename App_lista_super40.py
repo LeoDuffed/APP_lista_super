@@ -154,9 +154,22 @@ class ProductosDescuentos (Screen):
         def __init__ (self, **kwargs):
             super().__init__(**kwargs)
 
-            self.layour = BoxLayout (orientation = 'vertical', padding = 20, sapacing = 10)
+            self.layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10)
 
-            intruction_label = Label(text = "")
+            self.intruction_label = Label(text = "Ingrese tus productos",font_size = '30sp', color = (0,0,0,1))
+            self.layout.add_widget(self.intruction_label)
+
+            self.producto_input = TextInput(hint_text = "Ingrese tu articulo", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
+            self.layout.add_widget(self.producto_input)
+
+            self.precio_input = TextInput(hint_text = "Ingres el costo del articulo", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
+            self.layout.add_widget(self.precio_input)
+
+            self.descuento_input = TextInput(hint_text = "Ingresa cuanto descuento tiene", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
+            self.layout.add_widget(self.descuento_input)
+
+            self.cantidad_input = (TextInput(hint_text = "Ingresa la cantidad de productos que llevaras", multiline = False, size_hint_y = None, height = 100, font_size = '16sp'))
+            self.layout.add_widget(self.cantidad_input)
 
 class ListaTotal(Screen):
     def __init__(self, **kw):
