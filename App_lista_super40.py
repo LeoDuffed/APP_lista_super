@@ -171,6 +171,28 @@ class ProductosDescuentos (Screen):
             self.cantidad_input = (TextInput(hint_text = "Ingresa la cantidad de productos que llevaras", multiline = False, size_hint_y = None, height = 100, font_size = '16sp'))
             self.layout.add_widget(self.cantidad_input)
 
+            boton_agragar = Button (text = "Agregar producto", size_hint = (8.0, None), height = 200, pos_hint = {"center_x": 0.5}, background_color = (0,1,0,1))
+            boton_agragar.bind (on_press = self.AgregarProducto)
+            self.layout.add_widget(boton_agragar)
+
+            self.resultado_label = Label(text = "", color = (0,0,0,1))
+            self.layout.add_widget(self.resultado_label)
+
+            boton_volver = Button (text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1, 0.7, 0.8, 1))
+            boton_volver.bind(on_press = self.volver_registro)
+            self.layout.add_widget(boton_volver)
+
+            self.add_widget(self.layout)
+
+            self.lista_precios = []
+        
+        def volver_registro (self, instance): 
+            self.manager.current = 'inicio'
+
+        def AgregarProducto (self, instance):
+            producto = self.producto_input.text
+
+    
 class ListaTotal(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
