@@ -210,6 +210,7 @@ class ProductosDescuentos (Screen):
 
 
 
+
 class PaginaListas(Screen): 
     def __init__(self, **k): 
         super().__init__(**k)
@@ -238,7 +239,6 @@ class PaginaListas(Screen):
 
     def volver_registro (self, instance):
         self.manager.current = 'inicio'
-
 
     
 class ListaTotal(Screen):
@@ -318,8 +318,10 @@ class BorrarProductos (Screen):
         verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
         productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
         all_products = registro_gastos + verduras_futas + productos_descuentos
+        i = 0
         for nombre, precio in all_products: 
-            etiqueta = Label(text = f"{nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
+            i +=1
+            etiqueta = Label(text = f"[{i}]  {nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
             self.productos_layout.add_widget(etiqueta)
             etiqueta.color = (0,0,0,1)
 
@@ -334,12 +336,6 @@ class BorrarProductos (Screen):
 
     def volver_registro (self, instance):
         self.manager.current = 'listas'
-
-
-
-
-
-
 
 
 class ListaSuper (App): 
