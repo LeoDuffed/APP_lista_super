@@ -239,7 +239,8 @@ class ListaTotal(Screen):
     def calcular_total(self, instance):
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
         verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
-        all_products = registro_gastos + verduras_futas
+        productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
+        all_products = registro_gastos + verduras_futas + productos_descuentos
         total = sum(precio for nombre, precio in all_products)
         self.total_label.text = f"Total ${total:.2f}"
         self.total_label.color = (0,0,0,1)
@@ -248,7 +249,8 @@ class ListaTotal(Screen):
         self.productos_layout.clear_widgets()
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
         verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
-        all_products = registro_gastos + verduras_futas
+        productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
+        all_products = registro_gastos + verduras_futas + productos_descuentos
         for nombre, precio in all_products: 
             etiqueta = Label(text = f"{nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
             self.productos_layout.add_widget(etiqueta)
