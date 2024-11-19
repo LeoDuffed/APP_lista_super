@@ -191,7 +191,22 @@ class ProductosDescuentos (Screen):
 
         def AgregarProducto (self, instance):
             producto = self.producto_input.text
+            try: 
+                cantidad = int(self.cantidad_input.text)
+                precio = float(self.precio_input.text)
+                descuento = float(self.descuento_input.text)
+                descuento = ((descuento / 100) - 1) * -1
+                precio = precio * descuento
+                total_precio = precio * cantidad
+                self.lista_precios.append ((producto, total_precio))
 
+                self.producto_input.text = ""
+                self.precio_input.text = ""
+                self.descuento_input.text = ""
+                self.cantidad_input.text = ""
+                self.resultado_label.text = "Producto agregado"
+            except ValueError: 
+                self.resultado_label.text = "Ingresa un precio valido"
     
 class ListaTotal(Screen):
     def __init__(self, **kw):
