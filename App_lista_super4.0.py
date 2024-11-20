@@ -16,7 +16,7 @@ class PantallaInicio (Screen):
         super().__init__(**kawargs)
 
         layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
-        WelcomeLabel = Label (text = "App Lista del Super", font_size = '30sp', color = (0,0,0,1) )
+        WelcomeLabel = Label (text = "Tu Lista del Super", font_size = '30sp', color = (0,0,0,1) )
         layout.add_widget(WelcomeLabel)
 
         boton_registro = Button(text = "Anotar productos", pos_hint = {"center_x": 0.5}, background_color = (0.5, 1, 0, 1))
@@ -57,7 +57,7 @@ class RegistroGastos (Screen):
         
         self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
 
-        self.intruction_lable = Label (text = "Ingresa tus productos", font_size = '30sp', color = (0,0,0,1))
+        self.intruction_lable = Label (text = "Ingresa tus productos", font_size = '25sp', color = (0,0,0,1))
         self.layout.add_widget(self.intruction_lable)
 
         self.producto_input = TextInput (hint_text = "Ingrese el articulo", multiline = False, size_hint_y = None, height = 100, font_size= '16sp')
@@ -117,8 +117,9 @@ class VerdurasFrutas (Screen):
         self.precio_por_kilo = TextInput (hint_text = "Ingresa el valor por kilo", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.precio_por_kilo)
 
-        self.instruction_label2 = Label (text = "Medio kilo = 500 gramos.\nSolo ingresa 500, y asi para todos los demas", font_size = '15sp', color = (0,0,0,1))
-        self.layout.add_widget(self.instruction_label2)
+# Instrucciones de uso 
+#        self.instruction_label2 = Label (text = "Medio kilo = 500 gramos.\nSolo ingresa 500, y asi para todos los demas", font_size = '15sp', color = (0,0,0,1))
+#        self.layout.add_widget(self.instruction_label2)
 
         self.gramaje_input = TextInput (hint_text = "Ingresa en gramos lo que agarraste", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.gramaje_input)
@@ -162,7 +163,7 @@ class ProductosDescuentos (Screen):
 
             self.layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10)
 
-            self.intruction_label = Label(text = "Ingrese tus productos",font_size = '30sp', color = (0,0,0,1))
+            self.intruction_label = Label(text = "Ingresa tus productos",font_size = '25sp', color = (0,0,0,1))
             self.layout.add_widget(self.intruction_label)
 
             self.producto_input = TextInput(hint_text = "Ingrese tu articulo", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
@@ -171,8 +172,9 @@ class ProductosDescuentos (Screen):
             self.precio_input = TextInput(hint_text = "Ingres el costo del articulo", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
             self.layout.add_widget(self.precio_input)
 
-            self .instruction_label = Label(text = "Si tiene el 50% de descuento, ingresa solo 50.\nAsi para todos los descuentos.", font_size = '15sp', color = (0,0,0,1))
-            self.layout.add_widget(self.instruction_label)
+# Instrucciones de uso
+#            self .instruction_label = Label(text = "Si tiene el 50% de descuento, ingresa solo 50.\nAsi para todos los descuentos.", font_size = '15sp', color = (0,0,0,1))
+#            self.layout.add_widget(self.instruction_label)
 
             self.descuento_input = TextInput(hint_text = "Ingresa cuanto descuento tiene", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
             self.layout.add_widget(self.descuento_input)
@@ -219,7 +221,6 @@ class ProductosDescuentos (Screen):
 
 
 
-
 class PaginaListas(Screen): 
     def __init__(self, **k): 
         super().__init__(**k)
@@ -260,7 +261,7 @@ class ListaTotal(Screen):
         layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10)
 
         self.scroll_view = ScrollView (size_hint = (1, None), size = (Window.width, 300))
-        self.productos_layout = GridLayout (cols = 1, spacing = 10, size_hint_y = 10)
+        self.productos_layout = GridLayout (cols = 1, spacing = 15, size_hint_y = 10)
         self.productos_layout.bind(minimum_height = self.productos_layout.setter ('height'))
         self.scroll_view.add_widget(self.productos_layout)
         layout.add_widget(self.scroll_view)
@@ -303,13 +304,15 @@ class ListaTotal(Screen):
 
 
 class BorrarProductos (Screen):
+    # Falta por terminar 
+    
     def __init__(self, **kw):
         super().__init__(**kw)
 
         self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
 
         self.scroll_view = ScrollView (size_hint = (1, None), size = (Window.width, 300))
-        self.productos_layout = GridLayout (cols = 1, spacing = 10, size_hint_y = 10)
+        self.productos_layout = GridLayout (cols = 1, spacing = 15, size_hint_y = 10)
         self.productos_layout.bind(minimum_height = self.productos_layout.setter ('height'))
         self.scroll_view.add_widget(self.productos_layout)
         self.layout.add_widget(self.scroll_view)
@@ -349,31 +352,8 @@ class BorrarProductos (Screen):
             etiqueta = Label(text = f"[{i}]  {nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
             self.productos_layout.add_widget(etiqueta)
             etiqueta.color = (0,0,0,1)
-
-    def borrar_producto(self, instance):
-
-        try: 
-            producto = int(self.producto_lista_input.text)
-            producto = producto - 1
-
-            if 0 <= producto < len (self.lista):    
-
-                producto_borrado = self.lista.pop(producto)
-
-                self.productos_layout.clear_widgets()
-                self.on_enter()
-
-                self.label_borrado.text = f"{producto_borrado}"
-            else: 
-                self.label_borrado.text = "Ingresa un numero valido"
-
-        except ValueError: 
-            self.label_borrado.text = "Ingresa un numero valido"
-
-        self.producto_lista_input.text = ""
              
     def mostrar_producto (self, instance):
-
         self.lista = []
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
         verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
@@ -395,8 +375,40 @@ class BorrarProductos (Screen):
             
         self.producto_lista_input.text = ""
 
+    def borrar_producto(self, instance):
+        try: 
+            producto = int(self.producto_lista_input.text) - 1
+            registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
+            verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
+            productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
+            self.lista = registro_gastos + verduras_futas + productos_descuentos
+
+            if 0 <= producto < len (self.lista[0]):    
+
+                if producto < len (registro_gastos): 
+                    producto_borrado = registro_gastos.pop (producto)
+
+                elif producto < len (registro_gastos) + len (verduras_futas): 
+                    producto_borrado = verduras_futas.pop(producto - len(registro_gastos))
+                
+                else: 
+                    producto_borrado = productos_descuentos.pop (producto - len(registro_gastos) - len(verduras_futas))
+
+                self.productos_layout.clear_widgets()
+                self.on_enter()
+
+                self.label_borrado.text = f"Elimando: {producto_borrado}"
+            else: 
+                self.label_borrado.text = "Ingresa un numero valido"
+
+        except ValueError: 
+            self.label_borrado.text = "Ingresa un numero valido"
+
+        self.producto_lista_input.text = ""
+
     def volver_registro (self, instance):
         self.manager.current = 'listas'
+
 
 
 class ListaSuper (App): 
