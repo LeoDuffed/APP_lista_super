@@ -351,22 +351,27 @@ class BorrarProductos (Screen):
             etiqueta.color = (0,0,0,1)
 
     def borrar_producto(self, instance):
-        # falta hacer que se puedan borrar productos en la lista.
-        self.lista = []
-        registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
-        verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
-        productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
-        all_products = registro_gastos + verduras_futas + productos_descuentos
-        self.lista = all_products
-   
-        producto = int(self.producto_lista_input.text)
-        producto = producto - 1
 
-        self.lsita.remove[producto]
+        try: 
+            producto = int(self.producto_lista_input.text)
+            producto = producto - 1
 
-        self.label_borrado.text = "Articulo borrado"        
+            if 0 <= producto < len (self.lista):    
 
-            
+                producto_borrado = self.lista.pop(producto)
+
+                self.productos_layout.clear_widgets()
+                self.on_enter()
+
+                self.label_borrado.text = f"{producto_borrado}"
+            else: 
+                self.label_borrado.text = "Ingresa un numero valido"
+
+        except ValueError: 
+            self.label_borrado.text = "Ingresa un numero valido"
+
+        self.producto_lista_input.text = ""
+             
     def mostrar_producto (self, instance):
 
         self.lista = []
