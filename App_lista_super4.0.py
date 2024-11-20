@@ -303,9 +303,7 @@ class ListaTotal(Screen):
             etiqueta.color = (0,0,0,1)
 
 
-class BorrarProductos (Screen):
-    # Falta por terminar 
-    
+class BorrarProductos (Screen):    
     def __init__(self, **kw):
         super().__init__(**kw)
 
