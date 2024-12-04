@@ -148,9 +148,9 @@ class VerdurasFrutas (Screen):
     def show_info(self, instance):
         close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        content.add_widget(Label(text = 'Para ingresar el peso de la fruta/verdura que hagarraste:\n .5 kilos = 500 gramos\ningresa los 500 gramos.\n 1 kilo = 1000 gramos.', size_hint = (1,0.8)))
+        content.add_widget(Label(text = 'Para ingresar el peso de la fruta/verdura que hagarraste\n\nEjemplo:\n\n • .5 kilos = 500 gramos\n Ingresa los 500.\n • 1 kilo = 1000 gramos.\nIngresa los 1000.', size_hint = (1,1)))
         content.add_widget(close_button)
-        popup = Popup(title = 'informacion', content = content, size_hint =(0.8,0.4))
+        popup = Popup(title = 'informacion', content = content, size_hint =(0.7,0.6))
         popup.open()
 
     def agregar_producto(self, instance): 
@@ -175,7 +175,13 @@ class ProductosDescuentos (Screen):
         def __init__ (self, **kwargs):
             super().__init__(**kwargs)
 
+            main_layout = FloatLayout()
+
             self.layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10)
+
+            info_Button = Button(text = 'i', size_hint = (0.1,0.1), pos_hint = {'right': 1, 'top': 1})
+            info_Button.bind (on_release = self.show_info)
+            main_layout.add_widget(info_Button)
 
             self.intruction_label = Label(text = "Ingresa tus productos",font_size = '25sp', color = (0,0,0,1))
             self.layout.add_widget(self.intruction_label)
@@ -203,10 +209,23 @@ class ProductosDescuentos (Screen):
             boton_volver.bind(on_press = self.volver_registro)
             self.layout.add_widget(boton_volver)
 
-            self.add_widget(self.layout)
+            main_layout.add_widget(self.layout)
+
+            self.add_widget(main_layout)
 
             self.lista_precios = []
-        
+
+        def show_info(self, instance):
+            close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
+            content = BoxLayout(orientation = 'vertical')
+            content.add_widget(Label(text = 'Para ingresar el descuento de lo que hagarraste:\n\nEjemplo\n30% --> ingresa los 30 \n 50% --> ingresa 50', size_hint = (1,0.8)))
+            content.add_widget(close_button)
+            popup = Popup(title = 'informacion', content = content, size_hint =(0.8,0.4))
+            popup.open()
+
+
+
+
         def volver_registro (self, instance): 
             self.manager.current = 'inicio'
 
