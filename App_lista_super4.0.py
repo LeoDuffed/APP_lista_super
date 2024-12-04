@@ -108,7 +108,13 @@ class VerdurasFrutas (Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
 
+        main_layout = FloatLayout()
+        
         self.layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10 )
+
+        info_Button = Button(text = 'i', size_hint = (0.1,0.1), pos_hint = {'right': 1, 'top':1})
+        info_Button.bind (on_release = self.show_info)
+        main_layout.add_widget(info_Button)
 
         insctruction_label = Label (text = "Verduras y Frutas", font_size = '30sp', color = (0,0,0,1))
         self.layout.add_widget(insctruction_label)
@@ -118,10 +124,6 @@ class VerdurasFrutas (Screen):
 
         self.precio_por_kilo = TextInput (hint_text = "Ingresa el valor por kilo", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.precio_por_kilo)
-
-# Instrucciones de uso 
-#        self.instruction_label2 = Label (text = "Medio kilo = 500 gramos.\nSolo ingresa 500, y asi para todos los demas", font_size = '15sp', color = (0,0,0,1))
-#        self.layout.add_widget(self.instruction_label2)
 
         self.gramaje_input = TextInput (hint_text = "Ingresa en gramos lo que agarraste", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.gramaje_input)
@@ -137,9 +139,19 @@ class VerdurasFrutas (Screen):
         boton_volver.bind (on_press= self.volver_registro)
         self.layout.add_widget(boton_volver)
 
-        self.add_widget(self.layout)
+        main_layout.add_widget(self.layout)
+
+        self.add_widget(main_layout)
 
         self.lista_precios = []
+
+    def show_info(self, instance):
+        close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
+        content = BoxLayout(orientation = 'vertical')
+        content.add_widget(Label(text = 'Para ingresar el peso de la fruta/verdura que hagarraste:\n .5 kilos = 500 gramos\ningresa los 500 gramos.\n 1 kilo = 1000 gramos.', size_hint = (1,0.8)))
+        content.add_widget(close_button)
+        popup = Popup(title = 'informacion', content = content, size_hint =(0.8,0.4))
+        popup.open()
 
     def agregar_producto(self, instance): 
         try: 
@@ -173,10 +185,6 @@ class ProductosDescuentos (Screen):
 
             self.precio_input = TextInput(hint_text = "Ingres el costo del articulo", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
             self.layout.add_widget(self.precio_input)
-
-# Instrucciones de uso
-#            self .instruction_label = Label(text = "Si tiene el 50% de descuento, ingresa solo 50.\nAsi para todos los descuentos.", font_size = '15sp', color = (0,0,0,1))
-#            self.layout.add_widget(self.instruction_label)
 
             self.descuento_input = TextInput(hint_text = "Ingresa cuanto descuento tiene", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
             self.layout.add_widget(self.descuento_input)
