@@ -148,7 +148,7 @@ class VerdurasFrutas (Screen):
     def show_info(self, instance):
         close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        content.add_widget(Label(text = 'Para ingresar el peso de la fruta/verdura que hagarraste\n\nEjemplo:\n\n • .5 kilos = 500 gramos\n Ingresa los 500.\n • 1 kilo = 1000 gramos.\nIngresa los 1000.', size_hint = (1,1)))
+        content.add_widget(Label(text = 'Para ingresar el peso de la fruta/verdura que hagarraste\n\nEjemplo:\n\n • .5 kilos = 500 gramos\n Ingresa los 500.\n • 1 kilo = 1000 gramos.\nIngresa los 1000.', size_hint = (1,0.8)))
         content.add_widget(close_button)
         popup = Popup(title = 'informacion', content = content, size_hint =(0.7,0.6))
         popup.open()
@@ -218,13 +218,10 @@ class ProductosDescuentos (Screen):
         def show_info(self, instance):
             close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
             content = BoxLayout(orientation = 'vertical')
-            content.add_widget(Label(text = 'Para ingresar el descuento de lo que hagarraste:\n\nEjemplo\n30% --> ingresa los 30 \n 50% --> ingresa 50', size_hint = (1,0.8)))
+            content.add_widget(Label(text = 'Para ingresar el descuento de lo que hagarraste\n\nEjemplo:\n\n • 30% --> ingresa 30 \n • 50% --> ingresa 50', size_hint = (1,0.8)))
             content.add_widget(close_button)
-            popup = Popup(title = 'informacion', content = content, size_hint =(0.8,0.4))
+            popup = Popup(title = 'informacion', content = content, size_hint =(0.7,0.6))
             popup.open()
-
-
-
 
         def volver_registro (self, instance): 
             self.manager.current = 'inicio'
