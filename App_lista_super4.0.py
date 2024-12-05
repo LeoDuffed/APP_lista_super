@@ -17,7 +17,14 @@ class PantallaInicio (Screen):
     def __init__(self, **kawargs):
         super().__init__(**kawargs)
 
+        main_layout = FloatLayout()
+
         layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
+
+        info_Button = Button(text = 'i', size_hint = (0.1,0.1), pos_hint = {'right': 1, 'top': 1})
+        info_Button.bind(on_release = self.show_info)
+        main_layout.add_widget(info_Button)
+
         WelcomeLabel = Label (text = "Tu Lista del Super", font_size = '30sp', color = (0,0,0,1) )
         layout.add_widget(WelcomeLabel)
 
@@ -37,7 +44,17 @@ class PantallaInicio (Screen):
         boton_listas.bind (on_press = self.CambiarListas)
         layout.add_widget(boton_listas)
 
-        self.add_widget(layout)
+        main_layout.add_widget(layout)
+
+        self.add_widget(main_layout)
+
+    def show_info(self, instance):
+        close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release = lambda x: popup.dismiss())
+        content = BoxLayout(orientation = 'vertical')
+        content.add_widget(Label(text = 'Sobre mi....', size_hint = (1,0.8)))
+        content.add_widget(close_button)
+        popup = Popup(title = 'Sobre mi', content = content, size_hint = (0.7,0.6))
+        popup.open()
 
     def CambiarRegistro (self, instance): 
         self.manager.current = 'registro'
