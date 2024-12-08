@@ -325,7 +325,7 @@ class ListaTotal(Screen):
         boton_guardar_lista.bind(on_press = self.comfirmar_lista)
         layout.add_widget(boton_guardar_lista)
 
-        self.guardar_label = Label(text = "")
+        self.guardar_label = Label(text = "", color = (0,0,0,1))
         layout.add_widget(self.guardar_label)
 
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1, 0.7, 0.8, 1))
@@ -340,10 +340,18 @@ class ListaTotal(Screen):
     def comfirmar_lista(self, instance):
         close_button = Button(text = "Cancelar",pos_hint = {"center_x":0.5}, height = 300, background_color = (1,0,0,1), size_hint = (0.8,None), on_release = lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        content.add_widget(Button(text = "Comfirmar", height = 300,pos_hint = {"center_x":0.5}, size_hint = (0.8,None), background_color = (0,1,0,1) ))
+        boton_comfirmar = Button(text = "Comfirmar", height = 300,pos_hint = {"center_x":0.5}, size_hint = (0.8,None), background_color = (0,1,0,1), on_release = lambda x: popup.dismiss())
+        boton_comfirmar.bind(on_press = self.guardar_lista)
+        content.add_widget(boton_comfirmar)
         content.add_widget(close_button)
         popup = Popup(content = content, size_hint = (0.7,0.6), title = "")
         popup.open()
+
+    def guardar_lista(self, instace):
+
+        self.guardar_label.text = ""
+        self.guardar_label.text = "Lista agregado"
+
 
     def calcular_total(self, instance):
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
