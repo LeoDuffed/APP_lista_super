@@ -322,7 +322,7 @@ class ListaTotal(Screen):
         layout.add_widget(self.total_label)
 
         boton_guardar_lista = Button (text = "Guardar Lista", size_hint = (0.8,None), height = 300, pos_hint = {"center_x": 0.5}, background_color = (0.6,0.8,1,1))
-        boton_guardar_lista.bind(on_press = self.volver_registro)
+        boton_guardar_lista.bind(on_press = self.comfirmar_lista)
         layout.add_widget(boton_guardar_lista)
 
         self.guardar_label = Label(text = "")
@@ -336,6 +336,14 @@ class ListaTotal(Screen):
 
     def volver_registro (self, instance):
         self.manager.current = 'listas'
+
+    def comfirmar_lista(self, instance):
+        close_button = Button(text = "Cancelar",pos_hint = {"center_x":0.5}, height = 300, background_color = (1,0,0,1), size_hint = (0.8,None), on_release = lambda x: popup.dismiss())
+        content = BoxLayout(orientation = 'vertical')
+        content.add_widget(Button(text = "Comfirmar", height = 300,pos_hint = {"center_x":0.5}, size_hint = (0.8,None), background_color = (0,1,0,1) ))
+        content.add_widget(close_button)
+        popup = Popup(content = content, size_hint = (0.7,0.6), title = "")
+        popup.open()
 
     def calcular_total(self, instance):
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
@@ -479,7 +487,7 @@ class ListasGuardadas(Screen):
         self.add_widget(self.layout)
 
     def volver_registro(self, instance):
-        self.manager.current = 'listas'
+        self.manager.current = 'listas'        
 
 
 class ListaSuper (App): 
