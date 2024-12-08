@@ -488,6 +488,19 @@ class ListasGuardadas(Screen):
         instruction_label = Label(text = "Ve tus listas pasadas", font_size = '30sp', color = (0,0,0,1))
         self.layout.add_widget(instruction_label)
 
+        self.scroll_view = ScrollView(size_hint = (1, None), size = (Window.width, 300))
+        self.listas_layout = GridLayout (cols = 1, spacing = 15, size_hint_y = 10)
+        self.listas_layout.bind(minimum_height = self.scroll_view.setter('height'))
+        self.scroll_view.add_widget(self.listas_layout)
+        self.layout.add_widget(self.scroll_view)
+
+        self.selection_input = TextInput(hint_text = "Ingrese el numero de la lista", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
+        self.layout.add_widget(self.selection_input)
+
+        boton_seleccionar = Button(text = "Aceptar", pos_hint = {"center_x": 0.5}, size_hint = (0.8, None), height = 200, background_color = (0,1,0,1))
+        boton_seleccionar.bind (on_press = self.seleccionar_lista)
+        self.layout.add_widget(boton_seleccionar)
+
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1,0.7,0.8,1))
         boton_volver.bind(on_press = self.volver_registro)
         self.layout.add_widget(boton_volver)
@@ -495,7 +508,11 @@ class ListasGuardadas(Screen):
         self.add_widget(self.layout)
 
     def volver_registro(self, instance):
-        self.manager.current = 'listas'        
+        self.manager.current = 'listas' 
+
+    def seleccionar_lista(self, instance):
+        # Falta hacer esta funcion
+        self.manager.current = 'all'   
 
 
 class ListaSuper (App): 
