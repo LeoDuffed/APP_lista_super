@@ -8,6 +8,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
+from kivy.storage.jsonstore import JsonStore
 from kivy.core.window import Window 
 
 class PantallaInicio (Screen): 
@@ -278,6 +279,10 @@ class PaginaListas(Screen):
         boton_borrar.bind (on_press = self.CambiarBorrar)
         self.layout.add_widget(boton_borrar)
 
+        boton_VerListas = Button(text = "Todas las listas",pos_hint = {"center_x":0.5}, background_color = (0.5,1,0,1))
+        boton_VerListas.bind(on_press = self.CambiarAllListas)
+        self.layout.add_widget(boton_VerListas)
+
         boton_volver = Button (text = 'Volver', pos_hint = {"center_x":0.5}, background_color = (1, 0.7, 0.8, 1))
         boton_volver.bind (on_press = self.volver_registro)
         self.layout.add_widget(boton_volver)
@@ -289,6 +294,9 @@ class PaginaListas(Screen):
 
     def CambiarBorrar (self, instance):
         self.manager.current = 'borrar'
+
+    def CambiarAllListas(self, instance):
+        self.manager.current = 'all'
 
     def volver_registro (self, instance):
         self.manager.current = 'inicio'
@@ -448,6 +456,15 @@ class BorrarProductos (Screen):
         self.manager.current = 'listas'
 
 
+class ListasGuardadas(Screen):
+    def __init__(self, **k):
+        super().__init__(**k)
+
+        self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
+
+        instruction_label = Label(text = "Ve tus listas pasadas", font_size = '30sp', color = (0,0,0,1))
+        self.layout.add_widget(instruction_label)
+
 
 class ListaSuper (App): 
     def build(self): 
@@ -460,6 +477,7 @@ class ListaSuper (App):
         sm.add_widget(PaginaListas(name = 'listas'))
         sm.add_widget(ListaTotal (name = 'total'))
         sm.add_widget(BorrarProductos(name = 'borrar'))
+        sm.add_widget(ListasGuardadas(name = 'all'))
         return sm
     
 ListaSuper().run()
