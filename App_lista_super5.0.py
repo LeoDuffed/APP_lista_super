@@ -321,6 +321,13 @@ class ListaTotal(Screen):
         self.total_label = Label(text = "")
         layout.add_widget(self.total_label)
 
+        boton_guardar_lista = Button (text = "Guardar Lista", size_hint = (0.8,None), height = 300, pos_hint = {"center_x": 0.5}, background_color = (0.6,0.8,1,1))
+        boton_guardar_lista.bind(on_press = self.volver_registro)
+        layout.add_widget(boton_guardar_lista)
+
+        self.guardar_label = Label(text = "")
+        layout.add_widget(self.guardar_label)
+
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1, 0.7, 0.8, 1))
         boton_volver.bind (on_press = self.volver_registro) 
         layout.add_widget(boton_volver)
