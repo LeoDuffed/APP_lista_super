@@ -465,6 +465,15 @@ class ListasGuardadas(Screen):
         instruction_label = Label(text = "Ve tus listas pasadas", font_size = '30sp', color = (0,0,0,1))
         self.layout.add_widget(instruction_label)
 
+        boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1,0.7,0.8,1))
+        boton_volver.bind(on_press = self.volver_registro)
+        self.layout.add_widget(boton_volver)
+
+        self.add_widget(self.layout)
+
+    def volver_registro(self, instance):
+        self.manager.current = 'listas'
+
 
 class ListaSuper (App): 
     def build(self): 
