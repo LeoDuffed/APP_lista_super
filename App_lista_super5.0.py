@@ -11,6 +11,8 @@ from kivy.uix.popup import Popup
 from kivy.storage.jsonstore import JsonStore
 from kivy.core.window import Window 
 
+storage = JsonStore("listas.json")
+
 class PantallaInicio (Screen): 
     def __init__(self, **kawargs):
         super().__init__(**kawargs)
@@ -321,6 +323,9 @@ class ListaTotal(Screen):
         self.total_label = Label(text = "")
         layout.add_widget(self.total_label)
 
+        self.lista_input = TextInput(hint_text = "Escribe el nombre de la lista", size_hint_y = None)
+        layout.add_widget(self.lista_input)
+
         boton_guardar_lista = Button (text = "Guardar Lista", size_hint = (0.8,None), height = 300, pos_hint = {"center_x": 0.5}, background_color = (0.6,0.8,1,1))
         boton_guardar_lista.bind(on_press = self.comfirmar_lista)
         layout.add_widget(boton_guardar_lista)
@@ -349,8 +354,31 @@ class ListaTotal(Screen):
 
     def guardar_lista(self, instace):
 
+        registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
+        verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
+        productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
+        all_products = registro_gastos + verduras_futas + productos_descuentos
+
+        list_name = self.lista_input.text.strip()
+
+        if not list_name: 
+            self.guardar_label = "Error, Ingresa nombre"
+            return 
+        
+        if storage.exists("listas"):
+            listas_guardadas = storage.get("listas")["items"]
+        else: 
+            listas_guardadas = {}
+        
+        if list_name in listas_guardadas:
+            self.guardar_label.text = f"Error, la lista '{list_name}' ya existe"
+            return 
+
+        listas_guardadas[list_name] = all_products
+        storage.put ("listas", items = listas_guardadas)
+
         self.guardar_label.text = ""
-        self.guardar_label.text = "Lista agregado"
+        self.guardar_label.text = f"Lista '{list_name}' guardada "
 
 
     def calcular_total(self, instance):
@@ -501,18 +529,56 @@ class ListasGuardadas(Screen):
         boton_seleccionar.bind (on_press = self.seleccionar_lista)
         self.layout.add_widget(boton_seleccionar)
 
+        self.detalle_label = Label (text = "", size_hint_y = None, height = 300, color  = (0,0,0,1))
+        self.layout.add_widget(self.detalle_label)
+
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1,0.7,0.8,1))
         boton_volver.bind(on_press = self.volver_registro)
         self.layout.add_widget(boton_volver)
 
         self.add_widget(self.layout)
+    
+    def on_enter(self):
+
+        self.listas_layout.clear_widgets()
+
+        if storage.exists("listas"):
+            listas_guardadas = storage.get("listas")["items"]
+            for idx, list_name in enumerate(listas_guardadas.keys(), start = 1):
+                etiqueta = Label(text = f"[{idx}] {list_name}", size_hint_y = None, height = 40, color = (0,0,0,1))
+                self.listas_layout.add_widget(etiqueta)
+        else: 
+            etiqueta = Label(text = "No hay listas guardadas aun", size_hint_y = None, height = 40, color = (0,0,0,1))
+            self.listas_layout.add_widget(etiqueta)
+
+    def seleccionar_lista(self, instance):
+
+        if not storage.exists("listas"):
+            self.detalle_label.text = "No hay listas guardadas"
+            return 
+        
+        listas_guardadas = storage.get("listas")["items"]
+
+        try: 
+            seleccion = int(self.selection_input.text.strip()) - 1
+            if seleccion < 0 or seleccion >= len(listas_guardadas):
+                self.detalle_label.text = "Nuero de lista no valido"
+                return 
+            
+            list_name = list(listas_guardadas.keys())[seleccion]
+            items = listas_guardadas[list_name]
+            detalles = f"Listas: {list_name}\n\n" + "\n".join([f"{nombre} - ${precio:.2f}" for nombre, precio in items])
+            self.detalle_label.text = detalles
+
+        except ValueError:
+            self.detalle_label.text = "Por favor ingrese un valor valido"
+        finally: 
+            self.selection_input.text = ""
+
 
     def volver_registro(self, instance):
         self.manager.current = 'listas' 
-
-    def seleccionar_lista(self, instance):
-        # Falta hacer esta funcion
-        self.manager.current = 'all'   
+   
 
 
 class ListaSuper (App): 
