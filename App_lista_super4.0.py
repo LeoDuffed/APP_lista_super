@@ -23,7 +23,7 @@ class PantallaInicio (Screen):
 
         layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
 
-        info_Button = Button(text = 'i', size_hint = (0.1,0.1), pos_hint = {'right': 1, 'top': 1})
+        info_Button = Button(text = 'i', size_hint = (0.1,0.05), pos_hint = {'right': 1, 'top': 1})
         info_Button.bind(on_release = self.show_info)
         main_layout.add_widget(info_Button)
 
@@ -53,9 +53,9 @@ class PantallaInicio (Screen):
     def show_info(self, instance):
         close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release = lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        content.add_widget(Label(text = 'Esta app fue hecha unicamente por una persona,soy en estudiante \nde ingieneria en robotica y sistemas,mi pasatiempo es programar\ny sigo estudiando para crear mejores cosas.\nEs la primera app de varias, espero. \n\nMuchas gracias por instalarla.\n\nAtt. El desarrollador', size_hint = (1,0.8)))
+        content.add_widget(Label(text = 'Esta app fue hecha unicamente\npor una persona ,soy en\nestudiante de ingieneria en robotica\ny sistemas,mi pasatiempo es\nprogramar y sigo estudiando para\ncrear mejores cosas.\nEs la primera app de varias, espero. \n\nMuchas gracias por instalarla.\n\nAtt. El desarrollador', size_hint = (1,0.8)))
         content.add_widget(close_button)
-        popup = Popup(title = 'Sobre mi', content = content, size_hint = (0.7,0.6))
+        popup = Popup(title = 'Sobre mi', content = content, size_hint = (0.9,0.9))
         popup.open()
 
     def CambiarRegistro (self, instance): 
@@ -131,7 +131,7 @@ class VerdurasFrutas (Screen):
         
         self.layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10 )
 
-        info_Button = Button(text = 'i', size_hint = (0.1,0.1), pos_hint = {'right': 1, 'top':1})
+        info_Button = Button(text = 'i', size_hint = (0.1,0.05), pos_hint = {'right': 1, 'top':1})
         info_Button.bind (on_release = self.show_info)
         main_layout.add_widget(info_Button)
 
@@ -167,9 +167,9 @@ class VerdurasFrutas (Screen):
     def show_info(self, instance):
         close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        content.add_widget(Label(text = 'Para ingresar el peso de la fruta/verdura que hagarraste\n\nEjemplo:\n\n • .5 kilos = 500 gramos\n Ingresa los 500.\n • 1 kilo = 1000 gramos.\nIngresa los 1000.', size_hint = (1,0.8)))
+        content.add_widget(Label(text = 'Para ingresar el peso de\nla fruta/verdura que hagarraste\n\nEjemplo:\n\n • .5 kilos = 500 gramos\n Ingresa los 500.\n • 1 kilo = 1000 gramos.\nIngresa los 1000.', size_hint = (0.7,0.7)))
         content.add_widget(close_button)
-        popup = Popup(title = 'informacion', content = content, size_hint =(0.7,0.6))
+        popup = Popup(title = 'informacion', content = content, size_hint =(0.9,0.9))
         popup.open()
 
     def agregar_producto(self, instance): 
@@ -198,7 +198,7 @@ class ProductosDescuentos (Screen):
 
             self.layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10)
 
-            info_Button = Button(text = 'i', size_hint = (0.1,0.1), pos_hint = {'right': 1, 'top': 1})
+            info_Button = Button(text = 'i', size_hint = (0.1,0.05), pos_hint = {'right': 1, 'top': 1})
             info_Button.bind (on_release = self.show_info)
             main_layout.add_widget(info_Button)
 
@@ -237,7 +237,7 @@ class ProductosDescuentos (Screen):
         def show_info(self, instance):
             close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
             content = BoxLayout(orientation = 'vertical')
-            content.add_widget(Label(text = 'Para ingresar el descuento de lo que hagarraste\n\nEjemplo:\n\n • 30% --> ingresa 30 \n • 50% --> ingresa 50', size_hint = (1,0.8)))
+            content.add_widget(Label(text = 'Para ingresar el descuento\nde lo que hagarraste\n\nEjemplo:\n\n • 30% --> ingresa 30 \n • 50% --> ingresa 50', size_hint = (0.7,0.7)))
             content.add_widget(close_button)
             popup = Popup(title = 'informacion', content = content, size_hint =(0.7,0.6))
             popup.open()
