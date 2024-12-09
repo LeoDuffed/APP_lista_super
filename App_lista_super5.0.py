@@ -1,3 +1,6 @@
+# Hecho por Leonardo Martínez Peña
+# 9/12/2024
+
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label 
