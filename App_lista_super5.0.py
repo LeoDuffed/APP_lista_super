@@ -440,13 +440,6 @@ class BorrarProductos (Screen):
         self.producto_lista_input = TextInput(hint_text = "Ingresa el numero del producto", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.producto_lista_input)
 
-        boton_mostrar_producto = Button (text = "Mostrar", pos_hint = {"center_x": 0.5}, size_hint = (0.5, None), height = 150, background_color = (0.0, 0.749, 1.0))
-        boton_mostrar_producto.bind(on_press = self.mostrar_producto)
-        self.layout.add_widget(boton_mostrar_producto)
-
-        self.label_mostrar_producto = Label (text = "", color = (0,0,0,1))
-        self.layout.add_widget(self.label_mostrar_producto)
-
         boton_borrar_articulo = Button(text = "Borrar", pos_hint = {"center_x":0.5},size_hint = (0.5, None), height = 150, background_color = (1,0,0,1))
         boton_borrar_articulo.bind(on_press = self.borrar_producto)
         self.layout.add_widget(boton_borrar_articulo)
@@ -472,28 +465,6 @@ class BorrarProductos (Screen):
             etiqueta = Label(text = f"[{i}]  {nombre} - ${precio:.2f}", size_hint_y = None, height = 40)
             self.productos_layout.add_widget(etiqueta)
             etiqueta.color = (0,0,0,1)
-             
-    def mostrar_producto (self, instance):
-        self.lista = []
-        registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
-        verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
-        productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
-        all_products = registro_gastos + verduras_futas + productos_descuentos
-        self.lista = all_products
-
-        try: 
-            producto = int(self.producto_lista_input.text)
-            producto = producto - 1
-            if 0 <= producto <len(self.lista): 
-                nombre, precio = self.lista[producto]
-                self.label_mostrar_producto.text = f"{nombre} - ${precio:.2f}"
-            else: 
-                self.label_mostrar_producto.text= "Ingresa un numero valido"
-
-        except ValueError:
-            self.label_mostrar_producto.text = "Ingresa un numero valido"
-            
-        self.producto_lista_input.text = ""
 
     def borrar_producto(self, instance):
         try: 
@@ -517,7 +488,7 @@ class BorrarProductos (Screen):
                 self.productos_layout.clear_widgets()
                 self.on_enter()
 
-                self.label_borrado.text = f"Elimando: {producto_borrado}"
+                self.label_borrado.text = f"Producto {producto_borrado} eliminado con exito"
             else: 
                 self.label_borrado.text = "Ingresa un numero valido"
 
@@ -545,7 +516,7 @@ class ListasGuardadas(Screen):
         self.scroll_view.add_widget(self.listas_layout)
         self.layout.add_widget(self.scroll_view)
 
-        self.selection_input = TextInput(hint_text = "Ingrese el numero de la lista", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
+        self.selection_input = TextInput(hint_text = "Ingrese el numero de la lista que desea ver", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.selection_input)
 
         boton_seleccionar = Button(text = "Aceptar", pos_hint = {"center_x": 0.5}, size_hint = (0.8, None), height = 200, background_color = (0.0, 0.749, 1.0))
@@ -555,7 +526,7 @@ class ListasGuardadas(Screen):
         self.detalle_label = Label (text = "", size_hint_y = None, height = 250, color  = (0,0,0,1))
         self.layout.add_widget(self.detalle_label)
 
-        self.lista_borrado = TextInput (hint_text = "Ingresa el numero de la lista", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
+        self.lista_borrado = TextInput (hint_text = "Ingresa el numero de la lista que desea borrar", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.lista_borrado)
 
         boton_borrar_lista = Button(text = "Borrar",pos_hint = {"center_x": 0.5}, size_hint = (0.8, None), height = 200, background_color = (0.0, 0.749, 1.0))
@@ -595,7 +566,7 @@ class ListasGuardadas(Screen):
         try: 
             seleccion = int(self.selection_input.text.strip()) - 1
             if seleccion < 0 or seleccion >= len(listas_guardadas):
-                self.detalle_label.text = "Nuero de lista no valido"
+                self.detalle_label.text = "Numero de lista no valido"
                 return 
             
             list_name = list(listas_guardadas.keys())[seleccion]
