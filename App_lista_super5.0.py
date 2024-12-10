@@ -538,7 +538,7 @@ class ListasGuardadas(Screen):
         boton_borrar_lista.bind (on_press = self.borrar_lista)
         self.layout.add_widget(boton_borrar_lista)
 
-        self.label_borrado = Label (text = "", color = (0,0,0,1))
+        self.label_borrado = Label (text = "", color = (0,0,0,1), font_size = '16sp', halign = "center", valign = "middle")
         self.layout.add_widget(self.label_borrado)
 
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1,0.7,0.8,1))
@@ -604,7 +604,9 @@ class ListasGuardadas(Screen):
 
             storage.put("listas", items = listas_guardadas)
 
-            self.label_borrado.text = f"Lista '{list_name}' eliminada con exito"
+            self.label_borrado.markup = True
+
+            self.label_borrado.text = f"[b][color=#FF4500]Lista eliminado con éxito![/color][/b]\n"f"[color=#000000]{list_name}[/color]"
             self.on_enter()
         
         except ValueError: 
