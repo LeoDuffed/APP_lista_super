@@ -95,7 +95,7 @@ class RegistroGastos (Screen):
         boton_agregar.bind(on_press = self.AgregarProducto)
         self.layout.add_widget(boton_agregar)
 
-        self.resultado_label = Label(text = "", color = (0,0,0,1))
+        self.resultado_label = Label(text = "", color = (0,0,0,1), font_size = '16sp', halign = "center", valign = "middle")
         self.layout.add_widget(self.resultado_label)
 
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1, 0.7, 0.8, 1))
@@ -120,9 +120,11 @@ class RegistroGastos (Screen):
             self.producto_input.text = ""
             self.precio_input.text = ""
             self.cantidad_input.text = ""
-            self.resultado_label.text = "Producto Agregado"
+            self.resultado_label.markup = True
+            self.resultado_label.text = f"[b]Producto Agregado[/b]"
         except ValueError: 
-            self.resultado_label.text = "Ingresa un precio valido"
+            self.resultado_label.markup = True
+            self.resultado_label.text = f"[b][[color=#FF4500]Ingrese un costo valido[/color][/b]"
 
 class VerdurasFrutas (Screen):
     def __init__(self, **kw):
@@ -152,7 +154,7 @@ class VerdurasFrutas (Screen):
         agregar_button.bind(on_press = self.agregar_producto)
         self.layout.add_widget(agregar_button)
 
-        self.resultado_label = Label (text = "", color = (0,0,0,1))
+        self.resultado_label = Label (text = "", color = (0,0,0,1), font_size = '16sp', halign = "center", valign = "middle")
         self.layout.add_widget(self.resultado_label)
         
         boton_volver = Button (text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1, 0.7, 0.8, 1))
@@ -184,9 +186,11 @@ class VerdurasFrutas (Screen):
             self.producto_input.text = ""
             self.precio_por_kilo.text = ""
             self.gramaje_input.text = ""
-            self.resultado_label.text = "Producto Agregado"
+            self.resultado_label.markup = True
+            self.resultado_label.text = f"[b]Producto Agregado[/b]"
         except ValueError: 
-            self.resultado_label.text = "Ingrese peso o costo valido"
+            self.resultado_label.markup = True
+            self.resultado_label.text = f"[b][color=#FF4500]Ingrese peso o costo valido[/color][/b]"
 
     def volver_registro(self, instance): 
         self.manager.current = 'inicio'
@@ -222,7 +226,7 @@ class ProductosDescuentos (Screen):
             boton_agragar.bind (on_press = self.AgregarProducto)
             self.layout.add_widget(boton_agragar)
 
-            self.resultado_label = Label(text = "", color = (0,0,0,1))
+            self.resultado_label = Label(text = "", color = (0,0,0,1), font_size = '16sp', halign = "center", valign = "middle")
             self.layout.add_widget(self.resultado_label)
 
             boton_volver = Button (text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1, 0.7, 0.8, 1))
@@ -261,9 +265,11 @@ class ProductosDescuentos (Screen):
                 self.precio_input.text = ""
                 self.descuento_input.text = ""
                 self.cantidad_input.text = ""
-                self.resultado_label.text = "Producto agregado"
+                self.resultado_label.markup = True
+                self.resultado_label.text = f"[b]Producto agregado[/b]"
             except ValueError: 
-                self.resultado_label.text = "Ingresa un precio valido"
+                self.resultado_label.markup = True
+                self.resultado_label.text = f"[b][[color=#FF4500]Ingrese un costo valido[/color][/b]"
 
 
 
@@ -410,7 +416,8 @@ class ListaTotal(Screen):
         productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
         all_products = registro_gastos + verduras_futas + productos_descuentos
         total = sum(precio for nombre, precio in all_products)
-        self.total_label.text = f"Total ${total:.2f}"
+        self.total_label.markup = True
+        self.total_label.text = f"[b][color=#000000]Total[/b][/color]\n"f"[b][color=#000000]${total:.2f}[/b][/color]"
         self.total_label.color = (0,0,0,1)
 
     def on_enter(self):
