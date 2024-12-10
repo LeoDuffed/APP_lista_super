@@ -371,7 +371,7 @@ class ListaTotal(Screen):
         boton_comfirmar.bind(on_press = self.guardar_lista)
         content.add_widget(boton_comfirmar)
         content.add_widget(close_button)
-        popup = Popup(content = content, size_hint = (0.9,0.6), title = "Deseas Guardar tu lista")
+        popup = Popup(content = content, size_hint = (0.9,0.4), title = "Deseas Guardar tu lista")
         popup.open()
 
     def guardar_lista(self, instace):
