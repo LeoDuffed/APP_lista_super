@@ -371,7 +371,7 @@ class ListaTotal(Screen):
         boton_comfirmar.bind(on_press = self.guardar_lista)
         content.add_widget(boton_comfirmar)
         content.add_widget(close_button)
-        popup = Popup(content = content, size_hint = (0.9,0.9), title = "Deseas Guardar tu lista")
+        popup = Popup(content = content, size_hint = (0.9,0.6), title = "Deseas Guardar tu lista")
         popup.open()
 
     def guardar_lista(self, instace):
@@ -536,10 +536,10 @@ class ListasGuardadas(Screen):
 
         self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
 
-        instruction_label = Label(text = "Ve tus listas pasadas", font_size = '30sp', color = (0,0,0,1))
+        instruction_label = Label(text = "Ve tus listas pasadas", font_size = '25sp', color = (0,0,0,1))
         self.layout.add_widget(instruction_label)
 
-        self.scroll_view = ScrollView(size_hint = (1, None), size = (Window.width, 300))
+        self.scroll_view = ScrollView(size_hint = (1, None), size = (Window.width, 250))
         self.listas_layout = GridLayout (cols = 1, spacing = 15, size_hint_y = 10)
         self.listas_layout.bind(minimum_height = self.scroll_view.setter('height'))
         self.scroll_view.add_widget(self.listas_layout)
@@ -548,12 +548,22 @@ class ListasGuardadas(Screen):
         self.selection_input = TextInput(hint_text = "Ingrese el numero de la lista", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.selection_input)
 
-        boton_seleccionar = Button(text = "Aceptar", pos_hint = {"center_x": 0.5}, size_hint = (0.8, None), height = 200, background_color = (0,1,0,1))
+        boton_seleccionar = Button(text = "Aceptar", pos_hint = {"center_x": 0.5}, size_hint = (0.8, None), height = 200, background_color = (0.0, 0.749, 1.0))
         boton_seleccionar.bind (on_press = self.seleccionar_lista)
         self.layout.add_widget(boton_seleccionar)
 
-        self.detalle_label = Label (text = "", size_hint_y = None, height = 300, color  = (0,0,0,1))
+        self.detalle_label = Label (text = "", size_hint_y = None, height = 250, color  = (0,0,0,1))
         self.layout.add_widget(self.detalle_label)
+
+        self.lista_borrado = TextInput (hint_text = "Ingresa el numero de la lista", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
+        self.layout.add_widget(self.lista_borrado)
+
+        boton_borrar_lista = Button(text = "Borrar",pos_hint = {"center_x": 0.5}, size_hint = (0.8, None), height = 200, background_color = (0.0, 0.749, 1.0))
+        boton_borrar_lista.bind (on_press = self.borrar_lista)
+        self.layout.add_widget(boton_borrar_lista)
+
+        self.label_borrado = Label (text = "", color = (0,0,0,1))
+        self.layout.add_widget(self.label_borrado)
 
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1,0.7,0.8,1))
         boton_volver.bind(on_press = self.volver_registro)
@@ -598,7 +608,34 @@ class ListasGuardadas(Screen):
         finally: 
             self.selection_input.text = ""
 
+    def borrar_lista(self, instance):
 
+        if not storage.exists("listas"):
+            self.label_borrado.text = "No hay listas guardadas para borrar"
+            return 
+
+        listas_guardadas = storage.get("listas")["items"]
+
+        try: 
+            seleccion = int(self. lista_borrado.text.strip()) -1
+            if seleccion < 0 or seleccion >= len(listas_guardadas):
+                self.label_borrado.text = "Numero no valido"
+                return 
+            
+            
+            list_name = list(listas_guardadas.keys())[seleccion]
+            del listas_guardadas[list_name]
+
+            storage.put("listas", items = listas_guardadas)
+
+            self.label_borrado.text = f"Lista '{list_name}' eliminada con exito"
+            self.on_enter()
+        
+        except ValueError: 
+            self.label_borrado.text = "Por favor ingresa un numero valido"
+        finally: 
+            self.lista_borrado.text = ""
+                
     def volver_registro(self, instance):
         self.manager.current = 'listas' 
    
