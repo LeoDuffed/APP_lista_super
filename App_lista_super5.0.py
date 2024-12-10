@@ -24,7 +24,7 @@ class PantallaInicio (Screen):
 
         layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
 
-        info_Button = Button(text = 'i', size_hint = (0.1,0.1), pos_hint = {'right': 1, 'top': 1})
+        info_Button = Button(text = 'i', size_hint = (0.1,0.05), pos_hint = {'right': 1, 'top': 1})
         info_Button.bind(on_release = self.show_info)
         main_layout.add_widget(info_Button)
 
@@ -54,9 +54,9 @@ class PantallaInicio (Screen):
     def show_info(self, instance):
         close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release = lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        content.add_widget(Label(text = 'Esta app fue hecha unicamente por una persona,soy en estudiante \nde ingieneria en robotica y sistemas,mi pasatiempo es programar\ny sigo estudiando para crear mejores cosas.\nEs la primera app de varias, espero. \n\nMuchas gracias por instalarla.\n\nAtt. El desarrollador', size_hint = (1,0.8)))
+        content.add_widget(Label(text = 'Esta app fue hecha unicamente\npor una persona ,soy en\nestudiante de ingieneria en robotica\ny sistemas,mi pasatiempo es\nprogramar y sigo estudiando para\ncrear mejores cosas.\nEs la primera app de varias, espero. \n\nMuchas gracias por instalarla.\n\nAtt. El desarrollador', size_hint = (1,0.8)))
         content.add_widget(close_button)
-        popup = Popup(title = 'Sobre mi', content = content, size_hint = (0.7,0.6))
+        popup = Popup(title = 'Sobre mi', content = content, size_hint = (0.9,0.9))
         popup.open()
 
     def CambiarRegistro (self, instance): 
@@ -132,7 +132,7 @@ class VerdurasFrutas (Screen):
         
         self.layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10 )
 
-        info_Button = Button(text = 'i', size_hint = (0.1,0.1), pos_hint = {'right': 1, 'top':1})
+        info_Button = Button(text = 'i', size_hint = (0.1,0.05), pos_hint = {'right': 1, 'top':1})
         info_Button.bind (on_release = self.show_info)
         main_layout.add_widget(info_Button)
 
@@ -168,9 +168,9 @@ class VerdurasFrutas (Screen):
     def show_info(self, instance):
         close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        content.add_widget(Label(text = 'Para ingresar el peso de la fruta/verdura que hagarraste\n\nEjemplo:\n\n • .5 kilos = 500 gramos\n Ingresa los 500.\n • 1 kilo = 1000 gramos.\nIngresa los 1000.', size_hint = (1,0.8)))
+        content.add_widget(Label(text = 'Para ingresar el peso de\nla fruta/verdura que hagarraste\n\nEjemplo:\n\n • .5 kilos = 500 gramos\n Ingresa los 500.\n • 1 kilo = 1000 gramos.\nIngresa los 1000.', size_hint = (0.7,0.7)))
         content.add_widget(close_button)
-        popup = Popup(title = 'informacion', content = content, size_hint =(0.7,0.6))
+        popup = Popup(title = 'informacion', content = content, size_hint =(0.9,0.9))
         popup.open()
 
     def agregar_producto(self, instance): 
@@ -199,7 +199,7 @@ class ProductosDescuentos (Screen):
 
             self.layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10)
 
-            info_Button = Button(text = 'i', size_hint = (0.1,0.1), pos_hint = {'right': 1, 'top': 1})
+            info_Button = Button(text = 'i', size_hint = (0.1,0.05), pos_hint = {'right': 1, 'top': 1})
             info_Button.bind (on_release = self.show_info)
             main_layout.add_widget(info_Button)
 
@@ -238,7 +238,7 @@ class ProductosDescuentos (Screen):
         def show_info(self, instance):
             close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
             content = BoxLayout(orientation = 'vertical')
-            content.add_widget(Label(text = 'Para ingresar el descuento de lo que hagarraste\n\nEjemplo:\n\n • 30% --> ingresa 30 \n • 50% --> ingresa 50', size_hint = (1,0.8)))
+            content.add_widget(Label(text = 'Para ingresar el descuento\nde lo que hagarraste\n\nEjemplo:\n\n • 30% --> ingresa 30 \n • 50% --> ingresa 50', size_hint = (0.7,0.7)))
             content.add_widget(close_button)
             popup = Popup(title = 'informacion', content = content, size_hint =(0.7,0.6))
             popup.open()
@@ -271,7 +271,13 @@ class PaginaListas(Screen):
     def __init__(self, **k): 
         super().__init__(**k)
 
+        self.main_layout = FloatLayout()
+
         self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
+
+        info_button = Button(text = 'i', size_hint = (0.1,0.05), pos_hint = {'right':1, 'top':1})
+        info_button.bind (on_release = self.show_info)
+        self.main_layout.add_widget(info_button)
 
         instruction_label = Label (text = "Ve y Edita tus listas", font_size = '30sp', color = (0,0,0,1))
         self.layout.add_widget(instruction_label)
@@ -291,8 +297,18 @@ class PaginaListas(Screen):
         boton_volver = Button (text = 'Volver', pos_hint = {"center_x":0.5}, background_color = (1, 0.7, 0.8, 1))
         boton_volver.bind (on_press = self.volver_registro)
         self.layout.add_widget(boton_volver)
+        
+        self.main_layout.add_widget(self.layout)
 
-        self.add_widget(self.layout)
+        self.add_widget(self.main_layout)
+    
+    def show_info(self, instance):
+        self.close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release = lambda x: popup.dismiss())
+        content = BoxLayout(orientation = 'vertical')
+        content.add_widget(Label(text = 'En esta pagina puedes ver\ny editar tu lista, ademas\npuedes guardar tu lista\ny ver tus listas\npasadas.', size_hint = (1,0.8)))
+        content.add_widget(self.close_button)
+        popup = Popup(title = 'Informacion', content = content, size_hint = (0.9,0.9))
+        popup.open()
 
     def CambiarTotal (self, instance):
         self.manager.current = 'total'
@@ -313,6 +329,9 @@ class ListaTotal(Screen):
 
         layout = BoxLayout (orientation = 'vertical', padding = 20, spacing = 10)
 
+        instruction_label = Label(text = "Ve y Guarda tus listas", font_size = '20sp', color = (0,0,0,1))
+        layout.add_widget(instruction_label)
+
         self.scroll_view = ScrollView (size_hint = (1, None), size = (Window.width, 300))
         self.productos_layout = GridLayout (cols = 1, spacing = 15, size_hint_y = 10)
         self.productos_layout.bind(minimum_height = self.productos_layout.setter ('height'))
@@ -330,7 +349,7 @@ class ListaTotal(Screen):
         layout.add_widget(self.lista_input)
 
         boton_guardar_lista = Button (text = "Guardar Lista", size_hint = (0.8,None), height = 300, pos_hint = {"center_x": 0.5}, background_color = (0.6,0.8,1,1))
-        boton_guardar_lista.bind(on_press = self.comfirmar_lista)
+        boton_guardar_lista.bind(on_press = self.confirmar_lista)
         layout.add_widget(boton_guardar_lista)
 
         self.guardar_label = Label(text = "", color = (0,0,0,1))
@@ -345,18 +364,17 @@ class ListaTotal(Screen):
     def volver_registro (self, instance):
         self.manager.current = 'listas'
 
-    def comfirmar_lista(self, instance):
+    def confirmar_lista(self, instance):
         close_button = Button(text = "Cancelar",pos_hint = {"center_x":0.5}, height = 300, background_color = (1,0,0,1), size_hint = (0.8,None), on_release = lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        boton_comfirmar = Button(text = "Comfirmar", height = 300,pos_hint = {"center_x":0.5}, size_hint = (0.8,None), background_color = (0,1,0,1), on_release = lambda x: popup.dismiss())
+        boton_comfirmar = Button(text = "Confirmar", height = 300,pos_hint = {"center_x":0.5}, size_hint = (0.8,None), background_color = (0,1,0,1), on_release = lambda x: popup.dismiss())
         boton_comfirmar.bind(on_press = self.guardar_lista)
         content.add_widget(boton_comfirmar)
         content.add_widget(close_button)
-        popup = Popup(content = content, size_hint = (0.7,0.6), title = "Deseas Guardar tu lista")
+        popup = Popup(content = content, size_hint = (0.9,0.9), title = "Deseas Guardar tu lista")
         popup.open()
 
     def guardar_lista(self, instace):
-
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
         verduras_futas = App.get_running_app().root.get_screen('verduras').lista_precios
         productos_descuentos = App.get_running_app().root.get_screen('descuentos').lista_precios
@@ -382,7 +400,6 @@ class ListaTotal(Screen):
 
         self.guardar_label.text = ""
         self.guardar_label.text = f"Lista '{list_name}' guardada "
-
 
     def calcular_total(self, instance):
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
@@ -410,6 +427,9 @@ class BorrarProductos (Screen):
         super().__init__(**kw)
 
         self.layout = BoxLayout(orientation = 'vertical', padding = 20, spacing = 10)
+
+        self.instruction_label = Label (text = "Borra productos de tu lista", font_size = '20sp', color = (0,0,0,1))
+        self.layout.add_widget(self.instruction_label)
 
         self.scroll_view = ScrollView (size_hint = (1, None), size = (Window.width, 300))
         self.productos_layout = GridLayout (cols = 1, spacing = 15, size_hint_y = 10)
