@@ -124,7 +124,7 @@ class RegistroGastos (Screen):
             self.resultado_label.text = f"[b]Producto Agregado[/b]"
         except ValueError: 
             self.resultado_label.markup = True
-            self.resultado_label.text = f"[b][[color=#FF4500]Ingrese un costo valido[/color][/b]"
+            self.resultado_label.text = f"[b][color=#FF4500]Ingrese un costo valido[/color][/b]"
 
 class VerdurasFrutas (Screen):
     def __init__(self, **kw):
@@ -269,7 +269,7 @@ class ProductosDescuentos (Screen):
                 self.resultado_label.text = f"[b]Producto agregado[/b]"
             except ValueError: 
                 self.resultado_label.markup = True
-                self.resultado_label.text = f"[b][[color=#FF4500]Ingrese un costo valido[/color][/b]"
+                self.resultado_label.text = f"[b][color=#FF4500]Ingrese un costo valido[/color][/b]"
 
 
 
@@ -389,7 +389,8 @@ class ListaTotal(Screen):
         list_name = self.lista_input.text.strip()
 
         if not list_name: 
-            self.guardar_label = "Error, Ingresa nombre"
+            self.guardar_label.markup = True
+            self.guardar_label = f"[b][color=#FF4500]Error, ingrese nombre[/color][/b]"
             return 
         
         if storage.exists("listas"):
@@ -501,14 +502,15 @@ class BorrarProductos (Screen):
                 self.on_enter()
 
                 self.label_borrado.markup = True
-
                 self.label_borrado.text = f"[b][color=#FF4500]¡Producto eliminado con éxito![/color][/b]\n"f"[color=#000000]{nombre_producto}[/color]"
 
             else: 
-                self.label_borrado.text = "Ingresa un numero valido"
+                self.label_borrado.markup = True
+                self.label_borrado.text = f"[b][color=#FF4500]Ingrese un numero valido[/color][/b]"
 
         except ValueError: 
-            self.label_borrado.text = "Ingresa un numero valido"
+            self.label_borrado.markup = True
+            self.label_borrado.text = f"[b][color=#FF4500]Ingrese un numero valido[/color][/b]"
 
         self.producto_lista_input.text = ""
 
@@ -538,7 +540,7 @@ class ListasGuardadas(Screen):
         boton_seleccionar.bind (on_press = self.seleccionar_lista)
         self.layout.add_widget(boton_seleccionar)
 
-        self.detalle_label = Label (text = "", size_hint_y = None, height = 250, color  = (0,0,0,1))
+        self.detalle_label = Label (text = "", size_hint_y = None, height = 250, color  = (0,0,0,1), font_size = '16sp', halign = "center", valign = "middle")
         self.layout.add_widget(self.detalle_label)
 
         self.lista_borrado = TextInput (hint_text = "Ingresa el numero de la lista que desea borrar", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
@@ -573,7 +575,8 @@ class ListasGuardadas(Screen):
     def seleccionar_lista(self, instance):
 
         if not storage.exists("listas"):
-            self.detalle_label.text = "No hay listas guardadas"
+            self.detalle_label.markup = True
+            self.detalle_label.text = f"[b][color=#FF4500]No hay listas guardadas[/color][/b]"
             return 
         
         listas_guardadas = storage.get("listas")["items"]
@@ -581,7 +584,8 @@ class ListasGuardadas(Screen):
         try: 
             seleccion = int(self.selection_input.text.strip()) - 1
             if seleccion < 0 or seleccion >= len(listas_guardadas):
-                self.detalle_label.text = "Numero de lista no valido"
+                self.detalle_label.markup = True
+                self.detalle_label.text = f"[b][color=#FF4500]Nuero de lista no valido[/color][/b]"
                 return 
             
             list_name = list(listas_guardadas.keys())[seleccion]
@@ -590,14 +594,16 @@ class ListasGuardadas(Screen):
             self.detalle_label.text = detalles
 
         except ValueError:
-            self.detalle_label.text = "Por favor ingrese un valor valido"
+            self.detalle_label.markup = True
+            self.detalle_label.text = f"[b][color=#FF4500]Ingrese un numero valido[/color][/b]"
         finally: 
             self.selection_input.text = ""
 
     def borrar_lista(self, instance):
 
         if not storage.exists("listas"):
-            self.label_borrado.text = "No hay listas guardadas para borrar"
+            self.label_borrado.markup = True
+            self.label_borrado.text = f"[b][color=#FF4500]No hay listas guardadas[/color][/b]"
             return 
 
         listas_guardadas = storage.get("listas")["items"]
@@ -605,7 +611,8 @@ class ListasGuardadas(Screen):
         try: 
             seleccion = int(self. lista_borrado.text.strip()) -1
             if seleccion < 0 or seleccion >= len(listas_guardadas):
-                self.label_borrado.text = "Numero no valido"
+                self.label_borrado.markup = True
+                self.label_borrado.text = f"[b][color=#FF4500]Ingrese un numero valido[/color][/b]"
                 return 
             
             
@@ -620,7 +627,8 @@ class ListasGuardadas(Screen):
             self.on_enter()
         
         except ValueError: 
-            self.label_borrado.text = "Por favor ingresa un numero valido"
+            self.label_borrado.markup = True
+            self.label_borrado.text = f"[b][color=#FF4500]Ingrese un numero valido[/color][/b]"
         finally: 
             self.lista_borrado.text = ""
                 
