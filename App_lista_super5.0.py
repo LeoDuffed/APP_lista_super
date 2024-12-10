@@ -444,7 +444,7 @@ class BorrarProductos (Screen):
         boton_borrar_articulo.bind(on_press = self.borrar_producto)
         self.layout.add_widget(boton_borrar_articulo)
 
-        self.label_borrado = Label (text = "",color = (0,0,0,1))
+        self.label_borrado = Label (text = "",color = (0,0,0,1), font_size = '16sp', halign = "center", valign = "middle")
         self.layout.add_widget(self.label_borrado)
 
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1, 0.7, 0.8, 1))
@@ -485,10 +485,15 @@ class BorrarProductos (Screen):
                 else: 
                     producto_borrado = productos_descuentos.pop (producto - len(registro_gastos) - len(verduras_futas))
 
+                nombre_producto = (producto_borrado[0] if isinstance(producto_borrado, tuple) else str (producto_borrado))
+
                 self.productos_layout.clear_widgets()
                 self.on_enter()
 
-                self.label_borrado.text = f"Producto {producto_borrado} eliminado con exito"
+                self.label_borrado.markup = True
+
+                self.label_borrado.text = f"[b][color=#FF4500]¡Producto eliminado con éxito![/color][/b]\n"f"[color=#000000]{nombre_producto}[/color]"
+
             else: 
                 self.label_borrado.text = "Ingresa un numero valido"
 
