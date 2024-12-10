@@ -352,7 +352,7 @@ class ListaTotal(Screen):
         boton_guardar_lista.bind(on_press = self.confirmar_lista)
         layout.add_widget(boton_guardar_lista)
 
-        self.guardar_label = Label(text = "", color = (0,0,0,1))
+        self.guardar_label = Label(text = "", color = (0,0,0,1), font_size = '16sp', halign = "center", valign = "middle")
         layout.add_widget(self.guardar_label)
 
         boton_volver = Button(text = "Volver", pos_hint = {"center_x": 0.5}, background_color = (1, 0.7, 0.8, 1))
@@ -392,14 +392,17 @@ class ListaTotal(Screen):
             listas_guardadas = {}
         
         if list_name in listas_guardadas:
-            self.guardar_label.text = f"Error, la lista '{list_name}' ya existe"
+            self.guardar_label.markup = True
+            self.guardar_label.text = f"[b][color=#FF4500]Error[/color][/b]\n"f"[color=#000000]Ya existe una lista con ese nombre[/color]"
             return 
 
         listas_guardadas[list_name] = all_products
         storage.put ("listas", items = listas_guardadas)
-
+        
+        self.lista_input.text = ""
         self.guardar_label.text = ""
-        self.guardar_label.text = f"Lista '{list_name}' guardada "
+        self.guardar_label.markup = True
+        self.guardar_label.text = f"[b][color=#006400]Lista guardada con éxito![/color][/b]\n"f"[color=#000000]{list_name}[/color]"
 
     def calcular_total(self, instance):
         registro_gastos = App.get_running_app().root.get_screen('registro').lista_precios
