@@ -1,5 +1,5 @@
 # Hecho por Leonardo Martínez Peña
-# 9/12/2024
+# 12/12/2024
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -537,11 +537,14 @@ class ListasGuardadas(Screen):
         self.layout.add_widget(self.selection_input)
 
         boton_seleccionar = Button(text = "Aceptar", pos_hint = {"center_x": 0.5}, size_hint = (0.8, None), height = 200, background_color = (0.0, 0.749, 1.0))
-        boton_seleccionar.bind (on_press = self.seleccionar_lista)
+        boton_seleccionar.bind (on_press = self.seleccionar_listas)
         self.layout.add_widget(boton_seleccionar)
 
-        self.detalle_label = Label (text = "", size_hint_y = None, height = 250, color  = (0,0,0,1), font_size = '16sp', halign = "center", valign = "middle")
-        self.layout.add_widget(self.detalle_label)
+        self.detalle_scroll_view = ScrollView(size_hint=(1, None), size=(Window.width, 250))
+        self.productos_pasados = GridLayout(cols=1, spacing=15, size_hint_y=None)
+        self.productos_pasados.bind(minimum_height=self.productos_pasados.setter('height'))
+        self.detalle_scroll_view.add_widget(self.productos_pasados)
+        self.layout.add_widget(self.detalle_scroll_view)        
 
         self.lista_borrado = TextInput (hint_text = "Ingresa el numero de la lista que desea borrar", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.lista_borrado)
@@ -572,35 +575,37 @@ class ListasGuardadas(Screen):
             etiqueta = Label(text = "No hay listas guardadas aun", size_hint_y = None, height = 40, color = (0,0,0,1))
             self.listas_layout.add_widget(etiqueta)
 
-    def seleccionar_lista(self, instance):
+    def seleccionar_listas(self, instance):
+        self.productos_pasados.clear_widgets()
 
-        if not storage.exists("listas"):
-            self.detalle_label.markup = True
-            self.detalle_label.text = f"[b][color=#FF4500]No hay listas guardadas[/color][/b]"
-            return 
-        
-        listas_guardadas = storage.get("listas")["items"]
+        if storage.exists("listas"):
+            listas_guardadas = storage.get("listas")["items"]
 
-        try: 
-            seleccion = int(self.selection_input.text.strip()) - 1
-            if seleccion < 0 or seleccion >= len(listas_guardadas):
-                self.detalle_label.markup = True
-                self.detalle_label.text = f"[b][color=#FF4500]Nuero de lista no valido[/color][/b]"
-                return 
-            
-            list_name = list(listas_guardadas.keys())[seleccion]
-            items = listas_guardadas[list_name]
-            total = 0
-            for nombre, precio in items:
-                total =+ precio
-            detalles = f"Listas: {list_name}\nTotal: ${total:.2}\n\n" + "\n".join([f"{nombre} - ${precio:.2f}" for nombre, precio in items])
-            self.detalle_label.text = detalles
+            try:
+                seleccion = int(self.selection_input.text.strip()) - 1
+                if seleccion < 0 or seleccion >= len(listas_guardadas):
+                    detalles = Label(markup = True, text=f"[b][color==#FF4500] Número de lista no válido[/color][/b]", size_hint_y=None, height=40)
+                    self.productos_pasados.add_widget(detalles)
+                    return
 
-        except ValueError:
-            self.detalle_label.markup = True
-            self.detalle_label.text = f"[b][color=#FF4500]Ingrese un numero valido[/color][/b]"
-        finally: 
-            self.selection_input.text = ""
+                list_name = list(listas_guardadas.keys())[seleccion]
+                items = listas_guardadas[list_name]
+                total = 0
+                for nombre, precio in items:
+                    total += precio
+
+                for nombre, precio in items:
+                    detalles = Label( text=f"Lista: {list_name}\nTotal: {total}\n\n" + "\n".join(f"{nombre} - ${precio:.2f}"), size_hint_y=None, height=40, color = (0,0,0,1))
+
+                    #detalles = Label(markup = True, text=f"[b][color=#000000]Lista: {list_name}\n[/color][/b]" + "\n".join(f"[b][color=#000000]{nombre} - ${precio:.2f}[/color][/b]"), size_hint_y=None, height=40)
+                    self.productos_pasados.add_widget(detalles)
+
+            except ValueError:
+                detalles = Label(markup = True, text=f"[b][color==#FF4500] Número de lista no válido[/color][/b]", size_hint_y=None, height=40)
+                self.productos_pasados.add_widget(detalles)
+        else:
+            detalles = Label(markup = True, text=f"[b][color==#FF4500] No hay listas guardadas[/color][/b]", size_hint_y=None, height=40)
+            self.productos_pasados.add_widget(detalles)
 
     def borrar_lista(self, instance):
 
