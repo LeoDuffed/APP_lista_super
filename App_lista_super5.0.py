@@ -54,7 +54,7 @@ class PantallaInicio (Screen):
     def show_info(self, instance):
         close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release = lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        content.add_widget(Label(text = 'Esta app fue hecha unicamente\npor una persona, soy en\nestudiante de ingieneria en robotica\ny sistemas, mi pasatiempo es\nprogramar y sigo estudiando para\ncrear mejores cosas.\nEs la primera app de varias, espero. \n\nMuchas gracias por instalarla.\n\nAtt. El desarrollador', size_hint = (1,0.8)))
+        content.add_widget(Label(text = 'Esta app fue hecha unicamente\npor una persona, soy en\nestudiante de ingieneria en robotica\ny sistemas, mi pasatiempo es\nprogramar y sigo estudiando para\ncrear mejores cosas.\nEs la primera app de varias, espero. \n\nMuchas gracias por instalarla.\n\nAtt. El desarrollador\n\nCorreo electronico:\ncarlosmroder@gmail.com', size_hint = (1,0.8)))
         content.add_widget(close_button)
         popup = Popup(title = 'Sobre mi', content = content, size_hint = (0.9,0.9))
         popup.open()
@@ -528,7 +528,7 @@ class ListasGuardadas(Screen):
         self.layout.add_widget(instruction_label)
 
         self.scroll_view = ScrollView(size_hint = (1, None), size = (Window.width, 250))
-        self.listas_layout = GridLayout (cols = 1, spacing = 15, size_hint_y = 10)
+        self.listas_layout = GridLayout (cols = 1, spacing = 15, size_hint_y = 10, padding = [10,10,10,10])
         self.listas_layout.bind(minimum_height = self.scroll_view.setter('height'))
         self.scroll_view.add_widget(self.listas_layout)
         self.layout.add_widget(self.scroll_view)
@@ -540,11 +540,12 @@ class ListasGuardadas(Screen):
         boton_seleccionar.bind (on_press = self.seleccionar_listas)
         self.layout.add_widget(boton_seleccionar)
 
-        self.detalle_scroll_view = ScrollView(size_hint=(1, None), size=(Window.width, 250))
-        self.productos_pasados = GridLayout(cols=1, spacing=15, size_hint_y=None)
+        self.detalle_scroll_view = ScrollView(size_hint=(1, None), size = (Window.width, 250))  
+        self.productos_pasados = GridLayout(cols=1, spacing=15, padding=[10, 10, 10,10 ], size_hint_y=10)
         self.productos_pasados.bind(minimum_height=self.productos_pasados.setter('height'))
         self.detalle_scroll_view.add_widget(self.productos_pasados)
-        self.layout.add_widget(self.detalle_scroll_view)        
+        self.layout.add_widget(self.detalle_scroll_view)
+     
 
         self.lista_borrado = TextInput (hint_text = "Ingresa el numero de la lista que desea borrar", multiline = False, font_size = '16sp', size_hint_y = None, height = 100)
         self.layout.add_widget(self.lista_borrado)
@@ -594,18 +595,20 @@ class ListasGuardadas(Screen):
                 for nombre, precio in items:
                     total += precio
 
-                for nombre, precio in items:
-                    detalles = Label( text=f"Lista: {list_name}\nTotal: {total}\n\n" + "\n".join(f"{nombre} - ${precio:.2f}"), size_hint_y=None, height=40, color = (0,0,0,1))
-
-                    #detalles = Label(markup = True, text=f"[b][color=#000000]Lista: {list_name}\n[/color][/b]" + "\n".join(f"[b][color=#000000]{nombre} - ${precio:.2f}[/color][/b]"), size_hint_y=None, height=40)
-                    self.productos_pasados.add_widget(detalles)
+                detalles_texto = f"[b][color=#000000]Lista: {list_name}\nTotal: ${total:.2f}[/color][/b]\n\n"
+                detalles_texto += "\n".join([f"[color=#000000]{nombre} - ${precio:.2f}[/color]" for nombre, precio in items])
+                detalles = Label(markup = True, text=detalles_texto, size_hint_y=None, height=40)
+                self.productos_pasados.add_widget(detalles)
 
             except ValueError:
                 detalles = Label(markup = True, text=f"[b][color==#FF4500] Número de lista no válido[/color][/b]", size_hint_y=None, height=40)
                 self.productos_pasados.add_widget(detalles)
+            finally: 
+                self.selection_input.text = ""
         else:
             detalles = Label(markup = True, text=f"[b][color==#FF4500] No hay listas guardadas[/color][/b]", size_hint_y=None, height=40)
             self.productos_pasados.add_widget(detalles)
+        
 
     def borrar_lista(self, instance):
 
