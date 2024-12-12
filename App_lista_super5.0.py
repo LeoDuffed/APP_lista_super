@@ -170,7 +170,7 @@ class VerdurasFrutas (Screen):
     def show_info(self, instance):
         close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        content.add_widget(Label(text = 'Para ingresar el peso de\nla fruta/verdura que hagarraste\n\nEjemplo:\n\n • .5 kilos = 500 gramos\n Ingresa los 500.\n • 1 kilo = 1000 gramos.\nIngresa los 1000.', size_hint = (0.7,0.7)))
+        content.add_widget(Label(text = 'Para ingresar el peso de\nla fruta/verdura que agarraste\n\nEjemplo:\n\n • .5 kilos = 500 gramos\n Ingresa los 500.\n • 1 kilo = 1000 gramos.\nIngresa los 1000.', size_hint = (0.7,0.7)))
         content.add_widget(close_button)
         popup = Popup(title = 'informacion', content = content, size_hint =(0.9,0.9))
         popup.open()
@@ -213,7 +213,7 @@ class ProductosDescuentos (Screen):
             self.producto_input = TextInput(hint_text = "Ingrese tu articulo", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
             self.layout.add_widget(self.producto_input)
 
-            self.precio_input = TextInput(hint_text = "Ingres el costo del articulo", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
+            self.precio_input = TextInput(hint_text = "Ingresa el costo del articulo", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
             self.layout.add_widget(self.precio_input)
 
             self.descuento_input = TextInput(hint_text = "Ingresa cuanto descuento tiene", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
@@ -242,7 +242,7 @@ class ProductosDescuentos (Screen):
         def show_info(self, instance):
             close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release= lambda x: popup.dismiss())
             content = BoxLayout(orientation = 'vertical')
-            content.add_widget(Label(text = 'Para ingresar el descuento\nde lo que hagarraste\n\nEjemplo:\n\n • 30% --> ingresa 30 \n • 50% --> ingresa 50', size_hint = (0.7,0.7)))
+            content.add_widget(Label(text = 'Para ingresar el descuento\nde lo que agarraste\n\nEjemplo:\n\n • 30% --> ingresa 30 \n • 50% --> ingresa 50', size_hint = (0.7,0.7)))
             content.add_widget(close_button)
             popup = Popup(title = 'informacion', content = content, size_hint =(0.7,0.6))
             popup.open()
