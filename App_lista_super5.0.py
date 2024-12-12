@@ -54,7 +54,7 @@ class PantallaInicio (Screen):
     def show_info(self, instance):
         close_button = Button(text = "Cerrar", size_hint = (1,0.2), on_release = lambda x: popup.dismiss())
         content = BoxLayout(orientation = 'vertical')
-        content.add_widget(Label(text = 'Esta app fue hecha unicamente\npor una persona ,soy en\nestudiante de ingieneria en robotica\ny sistemas,mi pasatiempo es\nprogramar y sigo estudiando para\ncrear mejores cosas.\nEs la primera app de varias, espero. \n\nMuchas gracias por instalarla.\n\nAtt. El desarrollador', size_hint = (1,0.8)))
+        content.add_widget(Label(text = 'Esta app fue hecha unicamente\npor una persona, soy en\nestudiante de ingieneria en robotica\ny sistemas, mi pasatiempo es\nprogramar y sigo estudiando para\ncrear mejores cosas.\nEs la primera app de varias, espero. \n\nMuchas gracias por instalarla.\n\nAtt. El desarrollador', size_hint = (1,0.8)))
         content.add_widget(close_button)
         popup = Popup(title = 'Sobre mi', content = content, size_hint = (0.9,0.9))
         popup.open()
@@ -219,7 +219,7 @@ class ProductosDescuentos (Screen):
             self.descuento_input = TextInput(hint_text = "Ingresa cuanto descuento tiene", multiline = False, size_hint_y = None, height = 100, font_size = '16sp')
             self.layout.add_widget(self.descuento_input)
 
-            self.cantidad_input = (TextInput(hint_text = "Ingresa la cantidad de productos que llevaras", multiline = False, size_hint_y = None, height = 100, font_size = '16sp'))
+            self.cantidad_input = (TextInput(hint_text = "Ingresa la cantidad de productos que llevarás", multiline = False, size_hint_y = None, height = 100, font_size = '16sp'))
             self.layout.add_widget(self.cantidad_input)
 
             boton_agragar = Button (text = "Agregar producto", size_hint = (0.8, None), height = 200, pos_hint = {"center_x": 0.5}, background_color = (0,1,0,1))
