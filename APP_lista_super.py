@@ -43,5 +43,3 @@ class FirstLista(App):
 
 if __name__ == '__main__':
     FirstLista().run()
-
-#compilando
